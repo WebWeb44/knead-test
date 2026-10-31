@@ -509,11 +509,11 @@ function renderNew(){
 
 /* ---------- Event page ---------- */
 async function renderEvent(id,tab){
-  if(!['overview','staff','bookings','setup','record'].includes(tab)) tab='overview';
+  if(!['overview','bookings','setup','record'].includes(tab)) tab='overview';
   let ev=events.find(e=>e.id===id);
   if(!ev||S.ev?.id!==id){ view('<div class="loading">Loading…</div>'); ev=await reloadEvent(id); }
   if(!ev){ view(`<a class="back" href="#/events">← Events</a><div class="card"><p class="msg">This event is not in your workspace.</p></div>`); return; }
-  if(S.ev?.id!==id){ S.draft=null; S.dirty=false; S.record=null; S.picks=new Set(); }
+  if(S.ev?.id!==id){ S.draft=null; S.dirty=false; S.record=null; }
   S.ev=ev;
   await loadEventBookings(ev);
   const [tag,cls]=status(ev);
@@ -535,12 +535,11 @@ async function renderEvent(id,tab){
       </div>
     </div>
     <nav class="tabs" aria-label="Event sections">
-      ${[['overview','Overview'],['staff','Staffing'],['bookings','Bookings'],['setup','Setup'],['record','Record']].map(([k,l])=>`<a class="tab${tab===k?' on':''}" ${tab===k?'aria-current="page"':''} href="${base}/${k}">${l}${k==='record'&&needsRecord(ev)?' <span class="badge" style="margin-left:6px" aria-label="needs finalizing">!</span>':''}</a>`).join('')}
+      ${[['overview','Overview'],['bookings','Bookings'],['setup','Setup'],['record','Record']].map(([k,l])=>`<a class="tab${tab===k?' on':''}" ${tab===k?'aria-current="page"':''} href="${base}/${k}">${l}${k==='record'&&needsRecord(ev)?' <span class="badge" style="margin-left:6px" aria-label="needs finalizing">!</span>':''}</a>`).join('')}
     </nav>
     <div id="tabBody"></div>`);
   wireEventHeader(ev);
   if(tab==='overview') tabOverview(ev);
-  if(tab==='staff') tabStaff(ev);
   if(tab==='bookings') tabBookings(ev);
   if(tab==='setup') tabSetup(ev);
   if(tab==='record') tabRecord(ev);
@@ -644,56 +643,6 @@ async function syncInvite(ev,btn){
 }
 
 
-/* Staffing: seats + offers (hand pick or system) */
-const OFFER_RULES={hours:4,stopBeforeHours:24};
-function tabStaff(ev){
-  const names=ev.therapistNames, seats=names.length, open=names.filter(isOpenSeat).length, filled=seats-open;
-  const maxBooked=S.bookings.reduce((m,b)=>Math.max(m,Number(b.therapist)||0),0);
-  const locked=!!ev.deletedAt||hasEnded(ev);
-  const mode=S.staffMode||'pick'; S.picks=S.picks||new Set();
-  const active=therapists.filter(t=>!t.archived).sort((a,b)=>therLabel(a).localeCompare(therLabel(b)));
-  $('tabBody').innerHTML=`<div class="stack">
-    <section class="card stack" aria-labelledby="seatT">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><div class="lbl" id="seatT">Therapists needed</div>
-          <div style="display:flex;align-items:center;border:1px solid var(--ink)"><button class="ghost" style="border:0;min-height:38px;width:40px;padding:0" id="seatMinus" aria-label="One fewer therapist" ${locked?'disabled':''}>−</button><span style="min-width:44px;text-align:center;font:400 24px var(--serif)" aria-live="polite">${seats}</span><button class="ghost" style="border:0;min-height:38px;width:40px;padding:0" id="seatPlus" aria-label="One more therapist" ${locked?'disabled':''}>+</button></div>
-          <span class="muted small">No limit</span></div>
-        <span class="muted small">${filled} on roster · ${open} open</span>
-      </div>
-      <div>${names.map((n,i)=>`<div class="row"><span style="display:flex;gap:12px;align-items:center"><span class="lbl" style="width:56px">Seat ${i+1}</span><strong>${isOpenSeat(n)?'Open':esc(n)}</strong></span>${isOpenSeat(n)?'<span class="pill rust">Needs therapist</span>':'<span class="pill dark">On roster</span>'}</div>`).join('')}</div>
-      <p class="help">A therapist who accepts fills an open seat and goes on the roster. The event links don't change.</p>
-    </section>
-    ${locked?'':`<section class="card stack" aria-labelledby="sendT">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><div class="lbl" id="sendT">Send offer · ${open} open seat${open===1?'':'s'}</div>
-        <div class="segs" role="group" aria-label="How to send"><button class="seg${mode==='pick'?' on':''}" id="mPick" aria-pressed="${mode==='pick'}">Hand pick</button><button class="seg${mode==='auto'?' on':''}" id="mAuto" aria-pressed="${mode==='auto'}">System sends</button></div></div>
-      ${mode==='pick'?`<p class="muted" style="margin:0">Tick as many as you want. No limit. Only they get the offer, and the first to accept fill the open seats.</p>
-        <div>${active.map(t=>`<label class="tline" style="cursor:pointer"><span style="display:flex;gap:12px;align-items:center"><input type="checkbox" data-op="${t.id}" ${S.picks.has(t.id)?'checked':''} style="width:20px;height:20px;accent-color:#111"><strong>${esc(therLabel(t))}</strong></span></label>`).join('')||'<p class="help">Your therapist list is empty. Add people on the Therapists page.</p>'}</div>
-        <div style="background:var(--ink);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px"><span id="pickLine">${S.picks.size?`${S.picks.size} picked`:'Tick at least one therapist'}</span><span style="display:flex;gap:8px"><button class="ghost sm" id="clearPicks" style="background:none;color:#fff;border-color:#fff">Clear</button><button class="ghost sm" id="sendPicked" disabled>Send offer to picked</button></span></div>`
-      :`<p style="margin:0">The system sends the offer to every eligible therapist at once. The first ones to accept fill the open seats. When every seat is full, the offer closes for everyone else.</p>
-        <div><div class="row"><span class="muted">Time to accept</span><strong>${OFFER_RULES.hours} hours · extends until full</strong></div><div class="row"><span class="muted">Stops</span><strong>${OFFER_RULES.stopBeforeHours} hours before the event · alerts you</strong></div></div>
-        <div><button class="btn" id="startAuto" disabled>Start system offers</button></div>`}
-      <div class="lock small"><strong>Sending is the next build step.</strong> Offers need the email sender set up in the test project first. Until then, use Setup → Add therapist to put people straight on the event.</div>
-    </section>`}
-  </div>`;
-  const saveNames=async(next,breaks)=>{
-    const {error}=await sb.from('events').update({therapists:next.length,therapist_names:next,breaks,updated_at:new Date().toISOString()}).eq('id',ev.id).eq('organization_id',org.id);
-    if(error){ toast('Could not save: '+error.message); return; }
-    await reloadEvent(ev.id); render();
-  };
-  if($('seatPlus')) $('seatPlus').onclick=()=>saveNames([...names,`Therapist ${seats+1}`],ev.breaks);
-  if($('seatMinus')) $('seatMinus').onclick=()=>{
-    const last=names[seats-1];
-    if(seats<=1) return toast('An event needs at least one seat.');
-    if(!isOpenSeat(last)) return toast(`The last seat has ${last}. Remove them on Setup first.`);
-    if(maxBooked>=seats) return toast('The last seat has bookings, so it stays.');
-    saveNames(names.slice(0,-1),ev.breaks.filter(b=>b.therapist<seats));
-  };
-  if($('mPick')) $('mPick').onclick=()=>{ S.staffMode='pick'; tabStaff(ev); };
-  if($('mAuto')) $('mAuto').onclick=()=>{ S.staffMode='auto'; tabStaff(ev); };
-  document.querySelectorAll('[data-op]').forEach(cb=>cb.onchange=()=>{ cb.checked?S.picks.add(cb.dataset.op):S.picks.delete(cb.dataset.op); $('pickLine').textContent=S.picks.size?`${S.picks.size} picked`:'Tick at least one therapist'; });
-  if($('clearPicks')) $('clearPicks').onclick=()=>{ S.picks=new Set(); tabStaff(ev); };
-}
-
 /* Bookings */
 function tabBookings(ev){
   const draw=()=>{
@@ -756,10 +705,11 @@ function tabSetup(ev){
       <p class="help" id="capLine"></p>
     </section>
 
-    <section class="card stack" aria-labelledby="sT"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><div class="lbl" id="sT">Therapists &amp; breaks</div>${lockTeam?'':'<button class="ghost sm" type="button" id="addTher">Add therapist</button>'}</div>
-      <datalist id="dirList">${therapists.filter(t=>!t.archived).map(t=>`<option value="${esc(t.first_name+' '+String(t.last_initial||'').charAt(0).toUpperCase()+'.')}"></option>`).join('')}</datalist>
-      <div id="addPanel" hidden></div>
+    <section class="card stack" aria-labelledby="sT"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><div class="lbl" id="sT">Therapists</div></div>
       <div id="therRows"></div>
+      ${lockTeam?'':'<button class="ghost full" type="button" id="addRow" style="border-style:dashed;min-height:52px">+ Add therapist</button>'}
+      <p class="help">Choose from your therapist list only. To add someone new, save them on the <a href="#/therapists">Therapists</a> page first.</p>
+      <div class="lbl" style="margin-top:6px">Breaks</div>
       <div id="breakRows"></div>
       ${lockTeam?'':`<div class="grid2" style="align-items:end">
         <div class="field"><label for="bTher">Break for</label><select id="bTher"></select></div>
@@ -767,7 +717,7 @@ function tabSetup(ev){
         <div class="field"><label for="bLen">Length</label><select id="bLen">${BREAK_OPTIONS.map(v=>`<option value="${v}" ${v===30?'selected':''}>${v} minutes</option>`).join('')}</select></div>
         <div><button class="ghost" type="button" id="addBreak">Add break</button></div></div>
         <p class="msg err" id="breakMsg" role="alert" hidden></p>`}
-      <p class="help">Type a name or pick from your therapist list. Breaks are removed from the booking page automatically.</p>
+      <p class="help">Breaks are taken out of the booking page automatically.</p>
     </section>
 
     <section class="card stack" aria-labelledby="sC"><div class="lbl" id="sC">Client</div>
@@ -791,7 +741,7 @@ function tabSetup(ev){
     if(readOnly) return;
     d.company=$('fName').value; d.location=$('fLoc').value;
     if(!lockSchedule){ d.date=$('fDate').value; d.start=$('fStart').value; d.end=$('fEnd').value; d.session=Number($('fSession').value); d.buffer=Number($('fBuffer').value); }
-    if(!lockTeam) d.names=[...document.querySelectorAll('[data-ther-name]')].map(i=>i.value);
+    if(!lockTeam) d.names=[...document.querySelectorAll('[data-ther-name]')].map((el,i)=>el.value||`Therapist ${i+1}`);
     d.client={company:$('cCompany').value,contact:$('cContact').value,email:$('cEmail').value,phone:$('cPhone').value,serviceAddress:$('cAddr').value,notes:$('cNotes').value,invoice:$('cInvoice').value};
   };
   const preview=()=>({...ev,company:d.company,date:d.date,start:d.start,end:d.end,session:d.session,buffer:d.buffer,therapists:Math.max(d.names.length,1),therapistNames:d.names,breaks:d.breaks,finance:d.finance});
@@ -801,17 +751,22 @@ function tabSetup(ev){
     $('capLine').textContent=d.date&&minutes(d.end)>minutes(d.start)?`${cap} appointment times across ${p.therapists} therapist${p.therapists===1?'':'s'}.`:'Set a date and an end time after the start.';
   };
   const drawTeam=()=>{
+    const dir=therapists.filter(t=>!t.archived).sort((a,b)=>therLabel(a).localeCompare(therLabel(b)));
     $('therRows').innerHTML=d.names.map((nm,i)=>{
-      const t=therapists.find(x=>normName(`${x.first_name} ${String(x.last_initial||'').charAt(0)}`)===normName(nm));
+      const t=therapists.find(x=>normName(therLabel(x))===normName(nm));
+      const open=isOpenSeat(nm);
+      const taken=new Set(d.names.filter((n,k)=>k!==i).map(normName));
       const locked=lockTeam||maxBooked>=i+1||d.names.length===1;
       const why=lockTeam?'':maxBooked>=i+1?'Has bookings':'';
-      return `<div class="tline"><div class="field"><label for="tn${i}" class="sr-only">Therapist ${i+1}</label><input id="tn${i}" data-ther-name list="dirList" autocomplete="off" value="${esc(nm)}" placeholder="Therapist ${i+1} name" ${lockTeam?'disabled':''}><span class="help">${t?esc(`${t.phone} · ${t.email}`):'Not in your therapist list'}</span></div>
+      const legacy=!open&&!dir.some(x=>normName(therLabel(x))===normName(nm));
+      const opts=`<option value="">Choose a therapist</option>${legacy?`<option value="${esc(nm)}" selected>${esc(nm)} (not in your list)</option>`:''}${dir.map(x=>{ const l=therLabel(x); return `<option value="${esc(l)}" ${normName(l)===normName(nm)?'selected':''} ${taken.has(normName(l))?'disabled':''}>${esc(l)}</option>`; }).join('')}`;
+      return `<div class="tline" style="border:1px solid var(--line2);padding:12px 14px;margin-bottom:8px"><div class="field"><label for="tn${i}" class="sr-only">Therapist ${i+1}</label><select id="tn${i}" data-ther-name ${lockTeam?'disabled':''}>${opts}</select><span class="help">${t?esc(`${t.phone} · ${t.email}`):open?'Not chosen yet':'Not in your therapist list'}</span></div>
         ${lockTeam?'':`<button class="ghost sm" type="button" data-remove="${i}" ${locked?'disabled':''} title="${esc(why)}">${why||'Remove'}</button>`}</div>`;
     }).join('');
     const brs=d.breaks.slice().sort((a,b)=>a.therapist-b.therapist||a.start-b.start);
     $('breakRows').innerHTML=brs.length?brs.map(br=>`<div class="tline"><span><strong>${esc(d.names[br.therapist-1]||'Therapist '+br.therapist)}</strong> · break ${clock(br.start)} – ${clock(br.start+br.duration)}</span>${lockTeam?'':`<button class="ghost sm" type="button" data-unbreak="${esc(String(br.id))}">Remove</button>`}</div>`).join(''):'<p class="help">No breaks.</p>';
     if($('bTher')) $('bTher').innerHTML=d.names.map((nm,i)=>`<option value="${i+1}">${esc(nm||'Therapist '+(i+1))}</option>`).join('');
-    document.querySelectorAll('[data-ther-name]').forEach(inp=>inp.oninput=()=>{ read(); markDirty(); });
+    document.querySelectorAll('[data-ther-name]').forEach(inp=>inp.onchange=()=>{ read(); markDirty(); drawTeam(); totals(); });
     document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{
       read(); const i=Number(b.dataset.remove); d.names.splice(i,1);
       d.breaks=d.breaks.filter(br=>br.therapist!==i+1).map(br=>br.therapist>i+1?{...br,therapist:br.therapist-1}:br);
@@ -822,32 +777,7 @@ function tabSetup(ev){
   drawTeam(); totals();
   if(readOnly) return;
   $('setupForm').addEventListener('input',e=>{ if(e.target.matches('[data-ther-name]')) return; if(e.target.closest('#bTher,#bStart,#bLen')) return; read(); markDirty(); totals(); });
-  if($('addTher')) $('addTher').onclick=()=>{ const p=$('addPanel'); if(!p.hidden){ p.hidden=true; $('addTher').textContent='Add therapist'; return; } read(); openAddPanel(); };
-  const openAddPanel=()=>{
-    const p=$('addPanel'), picked=new Set(); p.hidden=false; $('addTher').textContent='Close';
-    const onEvent=new Set(d.names.map(normName));
-    const list=therapists.filter(t=>!t.archived).sort((a,b)=>therLabel(a).localeCompare(therLabel(b)));
-    p.innerHTML=`<div style="border:1px solid var(--ink);padding:18px" class="stack">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><h3 class="serif" style="margin:0;font-size:24px">Add to this event</h3><span class="muted small">From your therapist list</span></div>
-      <div class="field"><label for="addSearch" class="sr-only">Search therapists</label><input id="addSearch" placeholder="Search by name" autocomplete="off"></div>
-      <div id="addList" style="max-height:320px;overflow:auto"></div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" id="addGo" disabled>Add to event</button><button class="ghost" type="button" id="addSeat">Add an open seat</button><button class="ghost" type="button" id="addCancel">Cancel</button></div>
-      <p class="help">Adding puts them straight on the roster, with their own personal link. To ask first, add an open seat and send an offer from Staffing.</p></div>`;
-    const drawList=()=>{
-      const q=normName($('addSearch').value);
-      const rows=list.filter(t=>!q||normName(therLabel(t)).includes(q));
-      $('addList').innerHTML=rows.length?rows.map(t=>{ const on=picked.has(t.id), already=onEvent.has(normName(therLabel(t))); return `<label class="tline" style="cursor:pointer"><span style="display:flex;gap:12px;align-items:center"><input type="checkbox" data-pick="${t.id}" ${on?'checked':''} style="width:20px;height:20px;accent-color:#111"><span><strong>${esc(therLabel(t))}</strong><div class="muted small">${esc(t.phone)} · ${esc(t.email)}</div></span></span>${already?'<span class="muted small">On this event</span>':''}</label>`; }).join(''):'<p class="help">No therapist matches. Add new people on the Therapists page.</p>';
-      document.querySelectorAll('[data-pick]').forEach(cb=>cb.onchange=()=>{ cb.checked?picked.add(cb.dataset.pick):picked.delete(cb.dataset.pick); $('addGo').disabled=!picked.size; $('addGo').textContent=picked.size?`Add ${picked.size} to event`:'Add to event'; });
-    };
-    $('addSearch').oninput=drawList; drawList(); $('addSearch').focus();
-    $('addCancel').onclick=()=>{ p.hidden=true; $('addTher').textContent='Add therapist'; };
-    $('addSeat').onclick=()=>{ read(); d.names.push(`Therapist ${d.names.length+1}`); markDirty(); drawTeam(); totals(); toast('Open seat added. Save, then send an offer from Staffing.'); };
-    $('addGo').onclick=()=>{
-      read();
-      list.filter(t=>picked.has(t.id)).forEach(t=>{ const label=therLabel(t); const open=d.names.findIndex(isOpenSeat); if(open>=0) d.names[open]=label; else d.names.push(label); });
-      p.hidden=true; $('addTher').textContent='Add therapist'; markDirty(); drawTeam(); totals(); toast('Added. Press Save changes to keep it.');
-    };
-  };
+  if($('addRow')) $('addRow').onclick=()=>{ read(); d.names.push(`Therapist ${d.names.length+1}`); markDirty(); drawTeam(); totals(); $('tn'+(d.names.length-1)).focus(); };
   if($('addBreak')) $('addBreak').onclick=()=>{
     read(); const msg=$('breakMsg'); msg.hidden=true;
     const th=Number($('bTher').value), st=minutes($('bStart').value), len=Number($('bLen').value);
@@ -1020,30 +950,25 @@ function renderTherapists(){
   const arch=therapists.filter(t=>t.archived).length;
   const list=therapists.filter(t=>S.showArchivedTher?t.archived:!t.archived);
   const ed=S.editTher?therapists.find(t=>t.id===S.editTher):null;
-  const formOpen=!!ed||S.therFormOpen;
-  view(`<div class="head"><div><div class="lbl">Shared with In-home</div><h1 class="page">Therapists</h1></div><button class="btn" type="button" id="therAdd" aria-expanded="${formOpen}">Add therapist</button></div>
-  <form class="card stack" id="therForm" novalidate ${formOpen?'':'hidden'} style="border-color:var(--ink);max-width:720px">
-    <h2 class="serif" style="margin:0;font-size:26px">${ed?'Edit '+esc(therLabel(ed)):'Add a therapist'}</h2>
-    <div class="grid2">
-      <div class="field"><label for="tFirst">First name</label><input id="tFirst" autocomplete="off" value="${esc(ed?.first_name||'')}"></div>
-      <div class="field"><label for="tLast">Last initial</label><input id="tLast" maxlength="1" autocomplete="off" value="${esc(ed?.last_initial||'')}"></div>
-      <div class="field"><label for="tPhone">Phone</label><input id="tPhone" type="tel" value="${esc(ed?.phone||'')}"></div>
-      <div class="field"><label for="tEmail">Email</label><input id="tEmail" type="email" value="${esc(ed?.email||'')}"></div>
+  view(`<div><div class="lbl">Therapists</div><h1 class="page">Your therapist list</h1><p class="muted" style="margin:8px 0 0">Save each therapist once. Then pick them for any event. All four fields are required.</p></div>
+  <form id="therForm" novalidate style="background:var(--soft);padding:18px" class="stack">
+    ${ed?`<div class="lbl">Editing ${esc(therLabel(ed))}</div>`:''}
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+      <div class="field"><label for="tFirst" class="sr-only">First name</label><input id="tFirst" placeholder="First name" autocomplete="off" value="${esc(ed?.first_name||'')}"></div>
+      <div class="field"><label for="tLast" class="sr-only">Last initial</label><input id="tLast" placeholder="Last init." maxlength="1" autocomplete="off" value="${esc(ed?.last_initial||'')}"></div>
+      <div class="field"><label for="tPhone" class="sr-only">Phone</label><input id="tPhone" placeholder="Phone" type="tel" value="${esc(ed?.phone||'')}"></div>
+      <div class="field"><label for="tEmail" class="sr-only">Email</label><input id="tEmail" placeholder="Email" type="email" value="${esc(ed?.email||'')}"></div>
     </div>
     <p class="msg err" id="tMsg" role="alert" hidden></p>
-    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="submit">${ed?'Save changes':'Save therapist'}</button><button class="ghost" type="button" id="tCancel">Cancel</button></div>
-    <p class="help">No login needed. When they're on an event, the calendar invite emails them the event summary, their private link and the access code.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="submit">${ed?'Save changes':'Add therapist'}</button>${ed?'<button class="ghost" type="button" id="tCancel">Cancel</button>':''}</div>
   </form>
-  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-    <div class="segs" role="group" aria-label="Show"><a class="seg${S.showArchivedTher?'':' on'}" href="#/therapists" data-arch="0">Active</a><a class="seg${S.showArchivedTher?' on':''}" href="#/therapists" data-arch="1">Archived ${arch?`(${arch})`:''}</a></div>
-  </div>
-  <div class="card" style="padding:4px 18px 10px">${list.length?`<table class="table"><thead><tr><th>Therapist</th><th>Phone</th><th>Email</th><th>Next chair event</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>
-    ${list.map(t=>`<tr><td><strong>${esc(therLabel(t))}</strong></td><td>${esc(t.phone)}</td><td style="overflow-wrap:anywhere">${esc(t.email)}</td><td>${nextEventFor(t)}</td><td style="text-align:right;white-space:nowrap"><button class="ghost sm" data-edit="${t.id}">Edit</button> <button class="ghost sm" data-arch-t="${t.id}">${t.archived?'Restore':'Archive'}</button>${t.archived?` <button class="ghost sm danger" data-del="${t.id}">Delete</button>`:''}</td></tr>`).join('')}
-  </tbody></table>`:`<p class="empty">${S.showArchivedTher?'No archived therapists.':'No therapists yet. Add your first one above.'}</p>`}</div>`);
-  document.querySelectorAll('[data-arch]').forEach(a=>a.onclick=e=>{ e.preventDefault(); S.showArchivedTher=a.dataset.arch==='1'; renderTherapists(); });
+  <div class="stack" style="gap:10px">${list.length?list.map(t=>`<div style="border:1px solid var(--line2);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="min-width:0"><strong style="font-size:16px">${esc(therLabel(t))}</strong>${t.archived?' <span class="pill rust">Archived</span>':''}<div class="muted small" style="overflow-wrap:anywhere">${esc(t.phone)} · ${esc(t.email)}</div><div class="small" style="margin-top:2px">Next chair event: ${nextEventFor(t)}</div></span>
+      <span style="display:flex;gap:8px;flex-wrap:wrap"><button class="ghost sm" data-edit="${t.id}">Edit</button><button class="ghost sm" data-arch-t="${t.id}">${t.archived?'Restore':'Archive'}</button><button class="ghost sm danger" data-del="${t.id}">Delete</button></span></div>`).join(''):`<p class="empty">${S.showArchivedTher?'No archived therapists.':'No therapists yet. Add your first one above.'}</p>`}</div>
+  <div><button class="ghost sm" type="button" data-arch="${S.showArchivedTher?'0':'1'}">${S.showArchivedTher?'Show active':`Show archived${arch?` (${arch})`:''}`}</button></div>`);
+  document.querySelectorAll('[data-arch]').forEach(a=>a.onclick=()=>{ S.showArchivedTher=a.dataset.arch==='1'; renderTherapists(); });
   document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{ S.editTher=b.dataset.edit; renderTherapists(); $('tFirst').focus(); });
-  $('tCancel').onclick=()=>{ S.editTher=null; S.therFormOpen=false; renderTherapists(); };
-  $('therAdd').onclick=()=>{ S.editTher=null; S.therFormOpen=!formOpen||!!ed; renderTherapists(); if(S.therFormOpen) $('tFirst').focus(); };
+  if($('tCancel')) $('tCancel').onclick=()=>{ S.editTher=null; renderTherapists(); };
   document.querySelectorAll('[data-arch-t]').forEach(b=>b.onclick=async()=>{ const t=therapists.find(x=>x.id===b.dataset.archT); const {error}=await sb.from('therapists').update({archived:!t.archived}).eq('id',t.id).eq('organization_id',org.id); if(error) return toast(error.message); await loadAll(); toast(`${therLabel(t)} ${t.archived?'restored':'archived'}.`); renderTherapists(); });
   document.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{ const t=therapists.find(x=>x.id===b.dataset.del); const r=await ask({title:'Delete this therapist?',html:`${esc(therLabel(t))} is removed from your list. Past events keep the name they were saved with.`,ok:'Delete',danger:true}); if(!r.ok) return; const {error}=await sb.from('therapists').delete().eq('id',t.id).eq('organization_id',org.id); if(error) return toast(error.message); await loadAll(); toast('Therapist deleted.'); renderTherapists(); });
   $('therForm').onsubmit=async e=>{
@@ -1056,7 +981,7 @@ function renderTherapists(){
     const payload={organization_id:org.id,first_name:f,last_initial:l.charAt(0).toUpperCase(),phone:p,email:em};
     const q=S.editTher?sb.from('therapists').update(payload).eq('id',S.editTher).eq('organization_id',org.id):sb.from('therapists').insert(payload);
     const {error}=await q; if(error) return fail(error.message);
-    toast(S.editTher?'Saved.':'Therapist added.'); S.editTher=null; S.therFormOpen=false; await loadAll(); renderTherapists();
+    toast(S.editTher?'Saved.':'Therapist added.'); S.editTher=null; await loadAll(); renderTherapists();
   };
 }
 
