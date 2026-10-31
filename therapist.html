@@ -187,7 +187,7 @@ function DemoTherapistOffers({feed,busy,onAction,onRefresh}){
  useEffect(()=>{delta.current=Date.parse(feed.server_now)-Date.now()},[feed.server_now]);
  useEffect(()=>{const timer=setInterval(()=>setClock(Date.now()),1000);return()=>clearInterval(timer)},[]);
  const rows=feed.bookings.filter(b=>['held','confirmed'].includes(b.state));
- return h('div',{'data-screen':'demoOffers'},h('p',{class:'muted'},'Sandbox · sign in to both apps with your test account. Only your own test bookings appear here.'),h('button',{class:'text-button',disabled:busy,onClick:onRefresh},'Refresh offers'),rows.length?rows.map(b=>{
+ return h('div',{'data-screen':'demoOffers'},h('p',{class:'muted'},'Sandbox · only test bookings authorized for this demo therapist appear here. Use separate browser sessions for the customer and each therapist.'),h('button',{class:'text-button',disabled:busy,onClick:onRefresh},'Refresh offers'),rows.length?rows.map(b=>{
   const seconds=Math.max(0,Math.ceil((Date.parse(b.expires_at)-clock-delta.current)/1000));
   const at=new Date(b.starts_at).toLocaleString('en-US',{timeZone:'America/New_York',weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
   const v={isOffers:true,notEligible:false,showOffer:b.state==='held'&&!b.declined&&seconds>0,showAccepted:b.state==='confirmed',showDeclined:b.declined&&b.state==='held',showExpired:b.state==='held'&&!b.declined&&seconds===0,
@@ -195,7 +195,7 @@ function DemoTherapistOffers({feed,busy,onAction,onRefresh}){
    basePay:money(b.pay_cents),servicePay:money(b.service_charge_cents),receivePay:money(b.pay_cents+b.service_charge_cents),countdown:Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0'),busy,
    accept:()=>onAction('accept',b.id),decline:()=>onAction('decline',b.id),confirmedLabel:'Confirmed visit · '+at,addressLabel:[b.address,b.unit].filter(Boolean).join(' · '),accessLabel:b.access==='walkup'?'Walk-up'+(b.flights?' · '+b.flights+' flight(s)':''):'Elevator',visitSteps:[],visitOpen:false,visitDone:false};
   return h('section',{key:b.id},h('p',{class:'label'},b.therapist),h(TherapistOfferCard,{v}),b.state==='held'&&seconds>0&&!b.declined&&h('p',{class:'muted'},'Demo pay only. These sample dollar amounts are not a pay agreement.'),b.state==='confirmed'&&h('p',{role:'status'},'Accepted. The customer app updates automatically. This is a test visit; no real appointment or payout.'));
- }):h('section',{class:'card'},h('h2',{class:'serif'},'No test offers yet'),h('p',{},'Book in the customer app, choose Match me or include Demo Ella Brooks, then complete the test card hold. Keep this Offers screen open.')));
+ }):h('section',{class:'card'},h('h2',{class:'serif'},'No test offers yet'),h('p',{},'Use the authorized test customer account to create a new booking. Include your assigned demo therapist, then complete the test card hold. Keep this Offers screen open.')));
 }
 
 const COMPLIANCE_STEPS=[['license_verified','NYSED registration verified'],['identity_verified','Identity verified outside this app'],['video_verified','Live video identity check completed'],['conditional_offer','Genuine conditional offer issued'],['background_authorized','Separate written screening authorization received'],['background_cleared','Screening review completed — eligible']];
