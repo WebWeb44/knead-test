@@ -1,0 +1,1264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<title>Chair events · Knead NYC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111111;--muted:#666666;--line:#EDEDED;--line2:#E6E6E6;--field:#D0D0D0;--soft:#F4F4F2;--paper:#FFFFFF;--hover:#FAFAF8;--rust:#A8432C;--warnBg:#FBF1E1;--warnInk:#8A5A12;--sans:'Hanken Grotesk',system-ui,sans-serif;--serif:'Instrument Serif',Georgia,serif}
+[hidden]{display:none !important}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font:400 14px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration-color:var(--rust);text-underline-offset:3px}
+a:hover{color:var(--rust)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--rust);outline-offset:2px}
+.skip{position:absolute;left:8px;top:-200px;z-index:50;background:var(--ink);color:#fff;padding:10px 14px}
+.skip:focus{top:8px}
+.ribbon{background:var(--soft);border-bottom:1px solid var(--line2);color:var(--muted);font:600 10.5px var(--sans);letter-spacing:.2em;text-transform:uppercase;text-align:center;padding:7px 12px}
+.serif{font-family:var(--serif);font-weight:400}
+.brand{font:500 13px var(--sans);letter-spacing:.42em;text-transform:uppercase}
+.brand-sub{font:400 10px var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.lbl{font:600 10.5px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.small{font-size:12.5px}
+.btn,.ghost{appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--ink);border-radius:0;min-height:44px;padding:0 18px;font:500 12px var(--sans);letter-spacing:.13em;text-transform:uppercase;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn{background:var(--ink);color:#fff}
+.btn:hover{background:#2a2a2a;color:#fff}
+.ghost{background:#fff;color:var(--ink)}
+.ghost:hover{background:var(--hover);color:var(--ink)}
+.btn[disabled],.ghost[disabled]{opacity:.45;cursor:not-allowed}
+.sm{min-height:36px;padding:0 12px;font-size:11px}
+.full{width:100%}
+.danger{color:var(--rust);border-color:var(--rust)}
+.btn.danger{background:var(--rust);color:#fff}
+.linkbtn{appearance:none;border:0;background:none;padding:0;min-height:32px;cursor:pointer;text-align:left;text-decoration:underline;text-decoration-color:var(--rust);text-underline-offset:4px;font-size:12px}
+.seg{appearance:none;border:0;background:none;font:500 11.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);min-height:38px;padding:0 14px;cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
+.seg.on,.seg[aria-current="page"]{background:var(--ink);color:#fff}
+.segs{display:inline-flex;gap:2px;background:var(--soft);padding:3px}
+.tabs{display:flex;gap:24px;border-bottom:1px solid var(--line2);overflow-x:auto}
+.tab{appearance:none;border:0;border-bottom:2px solid transparent;background:none;font:500 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);min-height:48px;padding:0 2px;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center}
+.tab.on,.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--rust)}
+.card{border:1px solid var(--line2);padding:22px;background:#fff;min-width:0}
+.stack{display:flex;flex-direction:column;gap:16px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.pill{display:inline-block;font:600 10.5px var(--sans);letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;white-space:nowrap;background:var(--soft);color:var(--ink)}
+.pill.dark{background:var(--ink);color:#fff}
+.pill.warn{background:var(--warnBg);color:var(--warnInk)}
+.pill.rust{background:var(--soft);color:var(--rust)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:18px;align-items:start}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font:500 12.5px var(--sans)}
+.field input,.field select,.field textarea{width:100%;min-height:44px;border:1px solid var(--field);border-radius:0;padding:10px 12px;font-size:14px;background:#fff}
+.field textarea{min-height:76px;resize:vertical}
+.field input[disabled],.field select[disabled]{background:var(--hover);color:var(--muted)}
+.help{font-size:12.5px;color:var(--muted);margin:0}
+.msg{margin:0;font-size:13px}
+.err{color:var(--rust)}
+.ok{color:#2f6e3b}
+h1.page{margin:6px 0 0;font:400 38px/1.1 var(--serif)}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px}
+.back{appearance:none;align-self:flex-start;border:0;background:none;padding:0;min-height:36px;cursor:pointer;font:500 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center}
+.back:hover{color:var(--ink)}
+.url{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+
+/* Layout */
+.gate{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px}
+.gate-card{width:100%;max-width:400px;display:flex;flex-direction:column;gap:16px;border:1px solid var(--line2);padding:32px}
+.gate-card h1{margin:4px 0 6px;font-size:36px}
+.app{display:flex;min-height:100dvh}
+.side{width:232px;flex:none;border-right:1px solid var(--line);display:flex;flex-direction:column;padding:28px 0 22px;position:sticky;top:0;height:100dvh}
+.side-brand{padding:0 24px 22px}
+.divsw{display:flex;gap:2px;background:var(--soft);padding:3px;margin:0 18px 22px}
+.div{flex:1;min-height:36px;display:flex;align-items:center;justify-content:center;font:500 10.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.div.on{background:var(--ink);color:#fff}
+.nav-list{display:flex;flex-direction:column;gap:2px}
+.nav{border-left:2px solid transparent;font:500 12.5px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);min-height:44px;padding:0 22px;display:flex;justify-content:space-between;align-items:center;text-decoration:none}
+.nav:hover{color:var(--ink)}
+.nav.on{color:var(--ink);border-left-color:var(--rust);background:#F7F7F5}
+.badge{min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--rust);color:#fff;font:600 11px var(--sans);letter-spacing:0;display:inline-flex;align-items:center;justify-content:center}
+.side-foot{margin-top:auto;padding:0 24px;display:flex;flex-direction:column;gap:6px}
+.who{font-size:12px;overflow-wrap:anywhere}
+.mtop{display:none}
+.main{flex:1;min-width:0;display:flex;justify-content:center;padding:36px 40px 64px;outline:none}
+.wrap{width:100%;max-width:980px;min-width:0;display:flex;flex-direction:column;gap:22px}
+
+/* Events */
+.evrow{appearance:none;width:100%;border:0;border-bottom:1px solid var(--line);background:none;cursor:pointer;display:grid;grid-template-columns:64px 1fr auto;gap:18px;align-items:center;padding:16px 4px;text-align:left;color:var(--ink);text-decoration:none}
+.evrow:hover{background:var(--hover);color:var(--ink)}
+.datebox{display:flex;flex-direction:column;align-items:center;border:1px solid var(--line2);padding:8px 0}
+.datebox span:first-child{font:600 9.5px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.datebox span:last-child{font:400 28px/1 var(--serif)}
+.evname{font:600 16px var(--sans)}
+.evright{display:flex;align-items:center;gap:14px}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-left:1px solid var(--line);border-top:1px solid var(--line)}
+.cal>*{border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-width:0}
+.cal .dow{padding:8px 10px;background:var(--hover)}
+.cell{min-height:92px;padding:8px;display:flex;flex-direction:column;gap:4px}
+.cell.out{background:var(--hover);color:#AAAAAA}
+.cell.today .n{color:var(--rust);font-weight:600}
+.cell .n{font-size:13px}
+.chip{display:block;background:var(--ink);color:#fff;padding:5px 7px;font:500 11.5px/1.3 var(--sans);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip:hover{color:#fff;background:#333}
+.chip.past{background:var(--soft);color:var(--ink)}
+.more-wrap{position:relative}
+.menu{position:absolute;right:0;top:50px;z-index:20;width:240px;background:#fff;border:1px solid var(--ink);display:flex;flex-direction:column}
+.menu button{appearance:none;border:0;border-bottom:1px solid var(--line);background:none;text-align:left;padding:12px 14px;min-height:44px;cursor:pointer;font-size:14px}
+.menu button:last-child{border-bottom:0}
+.menu button:hover{background:var(--hover)}
+.table{width:100%;border-collapse:collapse;font-size:14px}
+.table th{font:600 10.5px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-align:left;padding:12px 10px 12px 0;border-bottom:1px solid var(--line2)}
+.table td{padding:12px 10px 12px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.table .open td{color:var(--muted)}
+.concern{color:var(--rust);font-weight:600}
+.tline{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.tline:last-child{border-bottom:0}
+.sticky-save{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line2);padding:14px 0;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;z-index:5}
+.lock{border:1px solid var(--line2);background:var(--hover);padding:12px 14px;font-size:13px}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.metric{border:1px solid var(--line2);padding:12px}
+.metric strong{display:block;font:400 26px/1.1 var(--serif)}
+.audit{display:flex;flex-direction:column;gap:10px;font-size:13px}
+.empty{padding:28px 0;color:var(--muted)}
+.dlg{border:1px solid var(--ink);border-radius:0;padding:0;max-width:480px;width:calc(100% - 32px)}
+.dlg::backdrop{background:rgba(17,17,17,.35)}
+.dlg-body{padding:24px;display:flex;flex-direction:column;gap:14px;margin:0}
+.dlg-body h2{margin:0;font-size:28px}
+.dlg-text{font-size:14px;line-height:1.6}
+.dlg-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 16px;font-size:13px;z-index:60;max-width:calc(100% - 32px)}
+.loading{color:var(--muted);letter-spacing:.2em;text-transform:uppercase;font-size:12px;padding:40px 0}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media(max-width:760px){
+  .app{flex-direction:column}
+  .side{display:none}
+  .mtop{display:flex;flex-direction:column;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:10}
+  .mnav{display:flex;gap:2px;background:var(--soft);padding:3px}
+  .mnav .seg{flex:1;justify-content:center;padding:0 6px}
+  .main{padding:22px 16px 48px}
+  h1.page{font-size:32px}
+  .evrow{grid-template-columns:52px 1fr;gap:12px}
+  .evright{grid-column:2;justify-content:flex-start}
+  .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .table thead{display:none}
+  .table tr{display:block;border-bottom:1px solid var(--line);padding:10px 0}
+  .table td{display:block;border:0;padding:2px 0}
+  .card{padding:16px}
+  .cell{min-height:64px;padding:4px}
+  .chip{font-size:10px;padding:3px 4px}
+}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="ribbon" id="envRibbon" hidden>Test copy · not the live site · sample data only</div>
+
+<!-- Sign in -->
+<section class="gate" id="gate" hidden aria-labelledby="gateTitle">
+  <form class="gate-card" id="gateForm" novalidate>
+    <div class="brand">Knead NYC</div>
+    <div class="lbl" style="margin-top:4px">Chair events</div>
+    <h1 class="serif" id="gateTitle">Sign in</h1>
+    <div class="field"><label for="gateEmail">Email</label><input id="gateEmail" type="email" autocomplete="username" required></div>
+    <div class="field"><label for="gatePassword">Password</label><input id="gatePassword" type="password" autocomplete="current-password" required></div>
+    <p class="msg err" id="gateMsg" role="alert" hidden></p>
+    <button class="btn full" type="submit" id="gateSubmit">Sign in</button>
+  </form>
+</section>
+
+<div class="app" id="app" hidden>
+  <aside class="side" aria-label="Workspace">
+    <div class="side-brand"><div class="brand">Knead NYC</div><div class="brand-sub">Workspace</div></div>
+    <div class="divsw" role="group" aria-label="Division">
+      <a class="div" id="divInhome" href="./owner.html">In-home</a>
+      <span class="div on" aria-current="page">Chair events</span>
+    </div>
+    <nav class="nav-list" aria-label="Chair events">
+      <a class="nav" data-nav="events" href="#/events"><span>Events</span><span class="badge" id="navBadge" hidden></span></a>
+      <a class="nav" data-nav="therapists" href="#/therapists"><span>Therapists</span></a>
+      <a class="nav" data-nav="settings" href="#/settings"><span>Settings</span></a>
+    </nav>
+    <div class="side-foot">
+      <div class="who" id="whoEmail"></div>
+      <button class="linkbtn" type="button" id="signOut">Sign out</button>
+    </div>
+  </aside>
+
+  <header class="mtop">
+    <div class="brand" style="font-size:12px">Knead NYC · Chair</div>
+    <nav class="mnav" aria-label="Chair events (mobile)">
+      <a class="seg" data-nav="events" href="#/events">Events</a>
+      <a class="seg" data-nav="therapists" href="#/therapists">Therapists</a>
+      <a class="seg" data-nav="settings" href="#/settings">Settings</a>
+    </nav>
+  </header>
+
+  <main id="main" class="main" tabindex="-1">
+    <div class="wrap" id="view" aria-live="polite"></div>
+  </main>
+</div>
+
+<!-- Confirm dialog (used for every action that changes saved data) -->
+<dialog class="dlg" id="dlg" aria-labelledby="dlgTitle">
+  <form method="dialog" class="dlg-body" id="dlgForm">
+    <h2 class="serif" id="dlgTitle"></h2>
+    <div id="dlgText" class="dlg-text"></div>
+    <div class="field" id="dlgTypeWrap" hidden><label for="dlgType" id="dlgTypeLabel"></label><input id="dlgType" autocomplete="off"></div>
+    <div class="field" id="dlgDateWrap" hidden><label for="dlgDate">New date</label><input id="dlgDate" type="date"></div>
+    <div class="dlg-actions">
+      <button class="ghost" value="cancel" type="submit" id="dlgCancel">Cancel</button>
+      <button class="btn" value="ok" type="submit" id="dlgOk">OK</button>
+    </div>
+  </form>
+</dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+'use strict';
+/* Knead NYC · Chair events admin (lean redesign).
+   Same tables, same functions and the same link format as the current chair admin.
+   Booking and therapist pages are NOT part of this file: links keep pointing to the existing pages. */
+const CFG = {"url": "https://jhvasnmjvaoujtlcrvaa.supabase.co", "key": "sb_publishable_jm3mJLfYB_wPegAhzUS-kQ_6oSkLlAE", "linkBase": "https://rosters.me/", "test": true};
+const sb = supabase.createClient(CFG.url, CFG.key);
+const LINK_BASE = CFG.linkBase; // 'https://rosters.me/' — the existing public booking page
+const DEFAULT_RATE = 70;
+const SESSION_OPTIONS = [5,7,10,12,15,20,30];
+const BUFFER_OPTIONS = [[0,'No reset time'],[2,'2 minutes'],[3,'3 minutes'],[5,'5 minutes']];
+const BREAK_OPTIONS = [15,20,30,45,60];
+const CLIENT_KEYS = ['company','contact','email','phone','serviceAddress','invoice','notes'];
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+async function sha256(str){ const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str)); return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join(''); }
+function minutes(t){ const [h,m]=String(t||'0:0').split(':').map(Number); return (h||0)*60+(m||0); }
+function clock(n){ let h=Math.floor(n/60), m=n%60; const ap=h>=12?'PM':'AM'; h=h%12||12; return `${h}:${String(m).padStart(2,'0')} ${ap}`; }
+function hhmm(n){ return `${String(Math.floor(n/60)).padStart(2,'0')}:${String(n%60).padStart(2,'0')}`; }
+function overlaps(sa,da,sb2,db){ return sa < sb2 + db && sb2 < sa + da; }
+function slug(s){ return String(s||'').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''); }
+function bookingLastName(r){ return String(r?.last_name||r?.last_initial||r?.last||'').trim(); }
+function employeeDisplayName(first,last){ const g=String(first||'').trim(), f=String(last||'').trim(); return `${g}${f?` ${f}${f.length===1?'.':''}`:''}`.trim(); }
+function dateKey(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function eventDate(v){ const p=v?new Date(v+'T12:00:00'):new Date(); return Number.isNaN(p.getTime())?new Date():p; }
+const fmtH = x => Math.round(x*10)/10;
+function sentence(t){ const v=String(t||'').trim(); return v && !/[.!?]$/.test(v) ? v+'.' : v; }
+function normName(v){ return String(v||'').toLowerCase().replace(/\./g,'').replace(/\s+/g,' ').trim(); }
+function todayKey(){ return dateKey(new Date()); }
+
+/* ---------- Links: identical format to the current admin ---------- */
+function employeeBookingUrl(ev){
+  const url=new URL(LINK_BASE);
+  url.searchParams.set('company',slug(ev.company)||'event');
+  url.searchParams.set('e',ev.publicToken||ev.id);
+  return url.toString();
+}
+function therapistRosterUrl(ev,n=null){
+  const url=new URL(employeeBookingUrl(ev));
+  url.searchParams.set('role','therapist');
+  if(n!==null) url.searchParams.set('t',n);
+  return url.toString();
+}
+
+/* ---------- State ---------- */
+let session=null, org=null;
+let events=[], therapists=[], bookingIndex=[], recordIndex=new Map();
+const S = { route:{}, ev:null, bookings:[], record:null, notes:[], draft:null, dirty:false, menu:false, poll:null, showArchivedTher:false, editTher:null, month:null };
+
+function mapEvent(e){
+  const saved=Array.isArray(e.therapist_names)?e.therapist_names.map(n=>String(n||'').trim()).filter(Boolean):[];
+  const count=saved.length||(e.therapists||1);
+  return {
+    id:e.id, publicToken:e.public_token||null, company:e.company||'Untitled', location:e.location||'',
+    date:e.event_date||'', start:e.start_time||'10:00', end:e.end_time||'14:00',
+    session:e.session_min||15, buffer:(e.buffer_min ?? 3), therapists:count,
+    therapistNames:saved.length?saved:Array.from({length:count},(_,i)=>`Therapist ${i+1}`),
+    therapistCode:e.therapist_code||'', therapistCodeHash:e.therapist_code_hash||null,
+    breaks:Array.isArray(e.breaks)?e.breaks:[], finance:(e.finance&&typeof e.finance==='object'&&!Array.isArray(e.finance))?e.finance:{},
+    archived:!!e.archived, deletedAt:e.deleted_at||null, calendarInvitesEnabled:!!e.calendar_invites_enabled,
+    client:(e.client&&typeof e.client==='object'&&!Array.isArray(e.client))?e.client:{}
+  };
+}
+function slotsFor(ev){
+  const start=minutes(ev.start), end=minutes(ev.end), step=ev.session+ev.buffer, out=[];
+  if(!ev.date||end<=start||step<=0) return out;
+  for(let t=start;t+ev.session<=end;t+=step) for(let th=1;th<=ev.therapists;th++) out.push({id:`${ev.date}-${t}-${th}`,start:t,therapist:th});
+  return out;
+}
+function blockedByBreak(ev,slot){ return (ev.breaks||[]).some(br=>br.therapist===slot.therapist&&overlaps(slot.start,ev.session,br.start,br.duration)); }
+function capacity(ev){ return slotsFor(ev).filter(s=>!blockedByBreak(ev,s)).length; }
+function bookedCount(ev){ return bookingIndex.filter(b=>b.event_id===ev.id).length; }
+function evEnd(ev){ if(!ev.date) return null; const [y,m,d]=ev.date.split('-').map(Number); const t=minutes(ev.end); return new Date(y,m-1,d,Math.floor(t/60),t%60); }
+function hasEnded(ev){ const e=evEnd(ev); return !!e && new Date()>=e; }
+function evHours(ev){ const d=(minutes(ev.end)-minutes(ev.start))/60; return d>0?d:0; }
+function therapistName(ev,i){ return ev.therapistNames[i-1]||`Therapist ${i}`; }
+function evTime(ev){ return `${clock(minutes(ev.start))} – ${clock(minutes(ev.end))}`; }
+function evLongDate(ev){ return ev.date?eventDate(ev.date).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'No date'; }
+function evShortDate(ev){ return ev.date?eventDate(ev.date).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}):'No date'; }
+function isFinal(ev){ const r=recordIndex.get(ev.id); return !!(r&&r.finalized_at); }
+function group(ev){ if(ev.deletedAt) return 'del'; if(ev.archived||(ev.date&&ev.date<todayKey())) return 'past'; return 'up'; }
+function needsRecord(ev){ return !ev.deletedAt && hasEnded(ev) && !isFinal(ev); }
+function status(ev){
+  if(ev.deletedAt) return ['Link paused','rust'];
+  if(isFinal(ev)) return ['Finalized',''];
+  if(needsRecord(ev)) return ['Record not finalized','warn'];
+  if(ev.archived) return ['Archived',''];
+  if(ev.date===todayKey()) return ['Today','dark'];
+  return ['Upcoming','dark'];
+}
+
+/* ---------- Data ---------- */
+async function loadAll(){
+  const [ev,th,bk,rc]=await Promise.all([
+    sb.from('events').select('*').eq('organization_id',org.id).order('event_date',{ascending:true}),
+    sb.from('therapists').select('*').eq('organization_id',org.id).order('first_name'),
+    sb.from('bookings').select('event_id,therapist,slot_start').eq('organization_id',org.id),
+    sb.from('event_records').select('event_id,finalized_at').eq('organization_id',org.id)
+  ]);
+  if(ev.error) throw ev.error;
+  events=(ev.data||[]).filter(e=>e.id!=='event').map(mapEvent);
+  therapists=th.data||[];
+  bookingIndex=bk.data||[];
+  recordIndex=new Map((rc.data||[]).map(r=>[r.event_id,r]));
+  updateBadge();
+}
+async function loadEventBookings(ev){
+  const {data,error}=await sb.from('bookings').select('*').eq('organization_id',org.id).eq('event_id',ev.id).order('slot_start',{ascending:true});
+  if(error) throw error;
+  S.bookings=data||[];
+  bookingIndex=bookingIndex.filter(b=>b.event_id!==ev.id).concat(S.bookings.map(b=>({event_id:b.event_id,therapist:b.therapist,slot_start:b.slot_start})));
+}
+async function reloadEvent(id){
+  const {data,error}=await sb.from('events').select('*').eq('organization_id',org.id).eq('id',id).maybeSingle();
+  if(error) throw error;
+  if(!data) return null;
+  const ev=mapEvent(data);
+  const i=events.findIndex(e=>e.id===id); if(i>=0) events[i]=ev; else events.push(ev);
+  return ev;
+}
+async function ensureUniqueId(base){
+  let id=base, n=2;
+  while(n<60){
+    const {data,error}=await sb.from('events').select('id').eq('id',id).eq('organization_id',org.id).maybeSingle();
+    if(error) throw new Error('Could not check the event name. Please try again.');
+    if(!data) return id;
+    id=base+'-'+n; n++;
+  }
+  return base+'-'+Date.now();
+}
+function updateBadge(){
+  const n=events.filter(needsRecord).length, b=$('navBadge');
+  b.hidden=!n; b.textContent=String(n); b.setAttribute('aria-label',`${n} record${n===1?'':'s'} to finalize`);
+}
+
+/* ---------- UI helpers ---------- */
+let toastTimer=null;
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.hidden=false; clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.hidden=true,3200); }
+function ask({title,html,ok='Confirm',danger=false,typeToMatch=null,typeLabel='',askDate=false}){
+  return new Promise(resolve=>{
+    const d=$('dlg'); $('dlgTitle').textContent=title; $('dlgText').innerHTML=html||'';
+    $('dlgOk').textContent=ok; $('dlgOk').className=danger?'btn danger':'btn';
+    $('dlgTypeWrap').hidden=!typeToMatch; $('dlgType').value=''; $('dlgTypeLabel').textContent=typeLabel;
+    $('dlgDateWrap').hidden=!askDate; $('dlgDate').value='';
+    const check=()=>{ $('dlgOk').disabled=(typeToMatch&&$('dlgType').value.trim()!==typeToMatch)||(askDate&&!$('dlgDate').value); };
+    $('dlgType').oninput=check; $('dlgDate').oninput=check; check();
+    d.onclose=()=>resolve(d.returnValue==='ok'?{ok:true,date:$('dlgDate').value}:{ok:false});
+    d.returnValue=''; d.showModal();
+    setTimeout(()=>(typeToMatch?$('dlgType'):askDate?$('dlgDate'):$('dlgCancel')).focus(),30);
+  });
+}
+async function copyText(text,btn,label='Copied'){
+  try{ await navigator.clipboard.writeText(text); if(btn){ const o=btn.textContent; btn.textContent=label; setTimeout(()=>btn.textContent=o,1400);} }
+  catch{ await ask({title:'Copy this',html:`<textarea readonly style="width:100%;min-height:120px">${esc(text)}</textarea>`,ok:'Done'}); }
+}
+function go(hash){ if(location.hash===hash) render(); else location.hash=hash; }
+function setNav(name){ document.querySelectorAll('[data-nav]').forEach(a=>{ const on=a.dataset.nav===name; a.classList.toggle('on',on); if(on) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); }); }
+function view(html){ $('view').innerHTML=html; }
+function stopPoll(){ if(S.poll){ clearInterval(S.poll); S.poll=null; } }
+
+/* ---------- Router ---------- */
+function parseRoute(){
+  const raw=(location.hash||'#/events').slice(2); const [path,qs]=raw.split('?'); const parts=path.split('/').map(decodeURIComponent);
+  return { name:parts[0]||'events', id:parts[1]||null, tab:parts[2]||'overview', q:new URLSearchParams(qs||'') };
+}
+let lastHash=location.hash, guardSkip=false;
+window.addEventListener('hashchange',async()=>{
+  if(guardSkip){ guardSkip=false; lastHash=location.hash; return; }
+  if(S.dirty){
+    const target=location.hash; guardSkip=true; history.replaceState(null,'',lastHash||'#/events'); guardSkip=false;
+    const r=await ask({title:'Leave without saving?',html:'Your changes on Setup are not saved yet.',ok:'Leave without saving',danger:true});
+    if(!r.ok) return;
+    S.dirty=false; S.draft=null; location.hash=target; return;
+  }
+  lastHash=location.hash; render();
+});
+window.addEventListener('beforeunload',e=>{ if(S.dirty){ e.preventDefault(); e.returnValue=''; } });
+
+async function render(){
+  stopPoll(); S.menu=false;
+  const r=parseRoute(); S.route=r;
+  try{
+    if(r.name==='therapists'){ setNav('therapists'); return renderTherapists(); }
+    if(r.name==='settings'){ setNav('settings'); return renderSettings(); }
+    setNav('events');
+    if(r.name==='new') return renderNew();
+    if(r.name==='event'&&r.id) return renderEvent(r.id,r.tab);
+    return renderEvents(r.q);
+  }catch(err){ console.error(err); view(`<div class="card stack"><div class="lbl">Something went wrong</div><p class="msg err">${esc(err.message||'Could not load this page.')}</p><div><button class="ghost" onclick="location.reload()">Reload</button></div></div>`); }
+}
+
+/* ---------- Events list ---------- */
+function renderEvents(q){
+  const list=['up','past','del'].includes(q.get('list'))?q.get('list'):'up';
+  const mode=q.get('view')==='month'&&list!=='del'?'month':'list';
+  const counts={up:0,past:0,del:0}; events.forEach(e=>counts[group(e)]++);
+  const link=(l,v)=>`#/events?list=${l}${v==='month'?'&view=month':''}`;
+  let body='';
+  if(mode==='month') body=monthHtml(q);
+  else{
+    let rows=events.filter(e=>group(e)===list);
+    if(list==='past') rows=rows.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+    if(list==='del') rows=rows.slice().sort((a,b)=>String(b.deletedAt).localeCompare(String(a.deletedAt)));
+    body=rows.length?`<div>${rows.map(rowHtml).join('')}</div>`:`<p class="empty">${{up:'No upcoming events. Use New event to add one.',past:'No past events yet.',del:'Nothing here. Deleted events keep their link and records, and can be restored.'}[list]}</p>`;
+  }
+  view(`
+    <div class="head"><div><div class="lbl">Chair events</div><h1 class="page">Events</h1></div><a class="btn" href="#/new">New event</a></div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid var(--line2)">
+      <div class="tabs" style="border:0" role="tablist" aria-label="Which events">
+        ${[['up','Upcoming'],['past','Past'],['del','Deleted']].map(([k,l])=>`<a class="tab${list===k?' on':''}" role="tab" aria-selected="${list===k}" href="${link(k,k==='del'?'list':mode)}">${l}<span class="muted" style="margin-left:6px">${counts[k]}</span></a>`).join('')}
+      </div>
+      ${list!=='del'?`<div class="segs" role="group" aria-label="View" style="margin-bottom:6px"><a class="seg${mode==='list'?' on':''}" href="${link(list,'list')}">List</a><a class="seg${mode==='month'?' on':''}" href="${link(list,'month')}">Month</a></div>`:''}
+    </div>
+    ${body}`);
+}
+function rowHtml(ev){
+  const [tag,cls]=status(ev);
+  const cap=capacity(ev), n=bookedCount(ev);
+  const meta=[ev.date?evShortDate(ev):'No date',evTime(ev),`${ev.therapists} therapist${ev.therapists===1?'':'s'}`,ev.location].filter(Boolean).join(' · ');
+  const d=ev.date?eventDate(ev.date):null;
+  return `<a class="evrow" href="#/event/${encodeURIComponent(ev.id)}">
+    <span class="datebox"><span>${d?d.toLocaleDateString('en-US',{month:'short'}):'—'}</span><span>${d?d.getDate():'—'}</span></span>
+    <span style="display:flex;flex-direction:column;gap:4px;min-width:0"><span class="evname">${esc(ev.company)}</span><span class="muted small">${esc(meta)}</span></span>
+    <span class="evright"><span class="muted small" style="white-space:nowrap">${n} of ${cap} booked</span><span class="pill ${cls}">${esc(tag)}</span></span>
+  </a>`;
+}
+function monthHtml(q){
+  const ym=/^\d{4}-\d{2}$/.test(q.get('m')||'')?q.get('m'):(()=>{ const up=events.filter(e=>group(e)==='up'&&e.date).sort((a,b)=>a.date.localeCompare(b.date))[0]; return (up?up.date:todayKey()).slice(0,7); })();
+  const [y,m]=ym.split('-').map(Number); const first=new Date(y,m-1,1); const start=new Date(y,m-1,1-first.getDay());
+  const prev=dateKey(new Date(y,m-2,1)).slice(0,7), next=dateKey(new Date(y,m,1)).slice(0,7);
+  const list=q.get('list')||'up';
+  const byDate={}; events.filter(e=>!e.deletedAt&&e.date).forEach(e=>(byDate[e.date]=byDate[e.date]||[]).push(e));
+  const today=todayKey(); let cells='';
+  const weeks=Math.ceil((first.getDay()+new Date(y,m,0).getDate())/7);
+  for(let i=0;i<weeks*7;i++){
+    const d=new Date(start); d.setDate(start.getDate()+i); const k=dateKey(d), evs=(byDate[k]||[]).sort((a,b)=>minutes(a.start)-minutes(b.start));
+    cells+=`<div class="cell${d.getMonth()!==m-1?' out':''}${k===today?' today':''}"><span class="n">${d.getDate()}</span>${evs.map(e=>`<a class="chip${group(e)==='past'?' past':''}" href="#/event/${encodeURIComponent(e.id)}" title="${esc(e.company)}">${esc(clock(minutes(e.start)).replace(':00','').replace(' AM','a').replace(' PM','p'))} ${esc(e.company)}</a>`).join('')}</div>`;
+  }
+  return `<div class="stack">
+    <div style="display:flex;justify-content:space-between;align-items:center"><h2 class="serif" style="margin:0;font-size:26px">${first.toLocaleDateString('en-US',{month:'long',year:'numeric'})}</h2>
+    <div style="display:flex;gap:6px"><a class="ghost sm" aria-label="Previous month" href="#/events?list=${list}&view=month&m=${prev}">‹</a><a class="ghost sm" aria-label="Next month" href="#/events?list=${list}&view=month&m=${next}">›</a></div></div>
+    <div class="cal">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=>`<div class="dow lbl">${d}</div>`).join('')}${cells}</div>
+    <p class="help">Shows upcoming and past events. Click an event to open it.</p></div>`;
+}
+
+/* ---------- New event ---------- */
+function renderNew(){
+  const d=new Date(); d.setDate(d.getDate()+7);
+  view(`<a class="back" href="#/events">← Events</a>
+  <div><h1 class="page">New event</h1><p class="muted" style="margin:6px 0 0">Just the basics. Add therapists and client details on Setup next.</p></div>
+  <form class="card stack" id="newForm" novalidate style="max-width:720px">
+    <div class="grid2">
+      <div class="field" style="grid-column:1/-1"><label for="nName">Client or event name</label><input id="nName" required autocomplete="off"></div>
+      <div class="field"><label for="nDate">Date</label><input id="nDate" type="date" required value="${dateKey(d)}"></div>
+      <div class="field"><label for="nLoc">Location shown on the booking page</label><input id="nLoc" value="New York, NY"></div>
+      <div class="field"><label for="nStart">Start</label><input id="nStart" type="time" value="10:00"></div>
+      <div class="field"><label for="nEnd">End</label><input id="nEnd" type="time" value="14:00"></div>
+    </div>
+    <div class="field"><label for="nAddr">Service address (optional)</label><input id="nAddr" placeholder="Street, floor, suite"></div>
+    <p class="msg err" id="newMsg" role="alert" hidden></p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="submit" id="newSubmit">Create event</button><a class="ghost" href="#/events">Cancel</a></div>
+  </form>`);
+  $('nName').focus();
+  $('newForm').onsubmit=async e=>{
+    e.preventDefault();
+    const name=$('nName').value.trim(), date=$('nDate').value, st=$('nStart').value, en=$('nEnd').value, msg=$('newMsg');
+    const fail=t=>{ msg.textContent=t; msg.hidden=false; };
+    if(!name) return fail('Enter the client or event name.');
+    if(!date) return fail('Choose the event date.');
+    if(!st||!en||minutes(en)<=minutes(st)) return fail('The end time must be after the start time.');
+    const btn=$('newSubmit'); btn.disabled=true; btn.textContent='Creating…'; msg.hidden=true;
+    try{
+      const id=await ensureUniqueId(slug(name)||'event');
+      const client={}; const addr=$('nAddr').value.trim(); if(addr) client.serviceAddress=addr;
+      const names=['Therapist 1','Therapist 2'];
+      const {error}=await sb.from('events').insert({id,organization_id:org.id,company:name,location:$('nLoc').value.trim()||'New York, NY',event_date:date,start_time:st,end_time:en,session_min:15,buffer_min:3,therapists:names.length,therapist_names:names,breaks:[],client,calendar_invites_enabled:false,updated_at:new Date().toISOString()});
+      if(error) throw error;
+      await reloadEvent(id); toast('Event created. Add therapists and details below.');
+      go(`#/event/${encodeURIComponent(id)}/setup`);
+    }catch(err){ fail(err.message||'Could not create the event.'); btn.disabled=false; btn.textContent='Create event'; }
+  };
+}
+
+/* ---------- Event page ---------- */
+async function renderEvent(id,tab){
+  if(!['overview','staff','bookings','setup','record'].includes(tab)) tab='overview';
+  let ev=events.find(e=>e.id===id);
+  if(!ev||S.ev?.id!==id){ view('<div class="loading">Loading…</div>'); ev=await reloadEvent(id); }
+  if(!ev){ view(`<a class="back" href="#/events">← Events</a><div class="card"><p class="msg">This event is not in your workspace.</p></div>`); return; }
+  if(S.ev?.id!==id){ S.draft=null; S.dirty=false; S.record=null; S.picks=new Set(); }
+  S.ev=ev;
+  await loadEventBookings(ev);
+  const [tag,cls]=status(ev);
+  const base=`#/event/${encodeURIComponent(ev.id)}`;
+  const deleted=!!ev.deletedAt;
+  view(`<a class="back" href="#/events?list=${group(ev)}">← Events</a>
+    ${deleted?`<div class="lock"><strong>This event is in Deleted.</strong> Its booking link is paused. Restoring brings back the same link, bookings and records.</div>`:''}
+    <div class="head" style="align-items:flex-start">
+      <div style="min-width:0"><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="pill ${cls}">${esc(tag)}</span><span class="muted small">${esc(evLongDate(ev))} · ${esc(evTime(ev))}</span></div>
+        <h1 class="page" style="margin-top:8px">${esc(ev.company)}</h1><div class="muted" style="margin-top:6px">${esc(ev.client.serviceAddress||ev.location||'')}</div></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        ${deleted?`<button class="btn" id="restoreBtn">Restore</button><button class="ghost danger" id="foreverBtn">Delete forever</button>`:
+        `<div class="more-wrap"><button class="ghost" id="moreBtn" aria-expanded="false" aria-haspopup="true">More</button>
+          <div class="menu" id="moreMenu" hidden role="menu">
+            <button role="menuitem" id="mDup">Duplicate event</button>
+            <button role="menuitem" id="mCsv">Export attendee list (CSV)</button>
+            <button role="menuitem" id="mDel" style="color:var(--rust)">Move to Deleted</button>
+          </div></div>`}
+      </div>
+    </div>
+    <nav class="tabs" aria-label="Event sections">
+      ${[['overview','Overview'],['staff','Staffing'],['bookings','Bookings'],['setup','Setup'],['record','Record']].map(([k,l])=>`<a class="tab${tab===k?' on':''}" ${tab===k?'aria-current="page"':''} href="${base}/${k}">${l}${k==='record'&&needsRecord(ev)?' <span class="badge" style="margin-left:6px" aria-label="needs finalizing">!</span>':''}</a>`).join('')}
+    </nav>
+    <div id="tabBody"></div>`);
+  wireEventHeader(ev);
+  if(tab==='overview') tabOverview(ev);
+  if(tab==='staff') tabStaff(ev);
+  if(tab==='bookings') tabBookings(ev);
+  if(tab==='setup') tabSetup(ev);
+  if(tab==='record') tabRecord(ev);
+}
+function wireEventHeader(ev){
+  if(ev.deletedAt){
+    $('restoreBtn').onclick=()=>trashAction(ev,'restore');
+    $('foreverBtn').onclick=()=>trashAction(ev,'forever');
+    return;
+  }
+  const btn=$('moreBtn'), menu=$('moreMenu');
+  const close=()=>{ menu.hidden=true; btn.setAttribute('aria-expanded','false'); };
+  btn.onclick=e=>{ e.stopPropagation(); menu.hidden=!menu.hidden; btn.setAttribute('aria-expanded',String(!menu.hidden)); if(!menu.hidden) menu.querySelector('button').focus(); };
+  document.addEventListener('click',close,{once:true});
+  menu.onkeydown=e=>{ if(e.key==='Escape'){ close(); btn.focus(); } };
+  $('mDup').onclick=()=>{ close(); duplicateEvent(ev); };
+  $('mCsv').onclick=()=>{ close(); exportCsv(ev); };
+  $('mDel').onclick=()=>{ close(); trashAction(ev,'move'); };
+}
+
+/* Overview */
+function tabOverview(ev){
+  const n=S.bookings.length, cap=capacity(ev), c=ev.client;
+  const personal=Array.from({length:ev.therapists},(_,i)=>({name:therapistName(ev,i+1),url:therapistRosterUrl(ev,i+1)}));
+  const linkReady=!!ev.publicToken;
+  $('tabBody').innerHTML=`<div class="cols">
+    <section class="card stack" aria-labelledby="lkT">
+      <div class="lbl" id="lkT">Links · permanent</div>
+      ${linkReady?`<div>
+        <div class="row"><span style="min-width:0"><strong>Employee booking page</strong><div class="url">${esc(employeeBookingUrl(ev))}</div></span><span style="display:flex;gap:6px"><button class="ghost sm" data-copy="${esc(employeeBookingUrl(ev))}">Copy</button><a class="ghost sm" target="_blank" rel="noopener" href="${esc(employeeBookingUrl(ev))}">Open</a></span></div>
+        <div class="row"><span style="min-width:0"><strong>Therapist view · whole team</strong><div class="url">${esc(therapistRosterUrl(ev))}</div><div class="small" style="margin-top:4px">Access code: <strong id="codeVal">${ev.therapistCode?'••••••':'Not set'}</strong> ${ev.therapistCode?'<button class="linkbtn" id="showCode" type="button">Show</button>':''}</div></span>
+          <span style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><button class="ghost sm" data-copy="${esc(therapistRosterUrl(ev))}">Copy link</button>${ev.deletedAt?'':`<button class="ghost sm" id="newCode">${ev.therapistCode?'New code':'Create code'}</button>`}</span></div>
+        <details class="row" style="display:block"><summary style="cursor:pointer;min-height:32px;display:flex;align-items:center;justify-content:space-between"><strong>Personal therapist links (${personal.length})</strong><span class="muted small">Each sees only their own column</span></summary>
+          ${personal.map(p=>`<div class="tline"><span style="min-width:0"><span>${esc(p.name)}</span><div class="url">${esc(p.url)}</div></span><button class="ghost sm" data-copy="${esc(p.url)}">Copy</button></div>`).join('')}
+        </details>
+      </div>
+      <p class="help">Links already shared keep working after any edit, including a rename.</p>`:`<p class="help">Links appear once the event is saved.</p>`}
+    </section>
+    <section class="card stack" aria-labelledby="agT">
+      <div class="lbl" id="agT">At a glance</div>
+      <div>
+        <div class="row"><span class="muted">Booked</span><strong>${n} of ${cap}</strong></div>
+        <div class="row"><span class="muted">Therapists</span><strong style="text-align:right">${esc(ev.therapistNames.join(', '))}</strong></div>
+        <div class="row"><span class="muted">Massage · reset</span><strong>${ev.session} min · ${ev.buffer?ev.buffer+' min':'none'}</strong></div>
+        <div class="row"><span class="muted">Point of contact</span><strong style="text-align:right">${esc([c.contact,c.phone].filter(Boolean).join(' · ')||'Not added')}</strong></div>
+        <div class="row"><span class="muted">Google Calendar</span><strong>${ev.calendarInvitesEnabled?'Synced · invites sent':'Not synced'}</strong></div>
+      </div>
+    </section>
+    <section class="card stack" style="grid-column:1/-1" aria-labelledby="smT">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div><div class="lbl" id="smT">Event summary</div><div class="muted small" style="margin-top:4px">Goes into the therapists' calendar invite.</div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="ghost" id="copySummary">Copy</button>${ev.deletedAt?'':`<button class="btn" id="syncCal">${ev.calendarInvitesEnabled?'Update calendar & invites':'Sync calendar & invite therapists'}</button>`}</div>
+      </div>
+      <div style="background:var(--hover);border:1px solid var(--line);padding:18px 20px;line-height:1.75;white-space:pre-line;overflow-wrap:anywhere">${esc(eventSummaryText(ev))}</div>
+      <p class="msg" id="calMsg" role="status"></p>
+    </section></div>`;
+  document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>copyText(b.dataset.copy,b));
+  $('copySummary').onclick=e=>copyText(eventSummaryText(ev),e.currentTarget);
+  if($('showCode')) $('showCode').onclick=e=>{ $('codeVal').textContent=ev.therapistCode; e.currentTarget.remove(); };
+  if($('newCode')) $('newCode').onclick=()=>newAccessCode(ev);
+  if($('syncCal')) $('syncCal').onclick=e=>syncInvite(ev,e.currentTarget);
+}
+function eventSummaryText(ev){
+  const c=ev.client||{}, client=ev.company||c.company||'—';
+  let details='—';
+  if(c.serviceAddress){ details=`Service address: ${sentence(c.serviceAddress)}`; if(c.notes) details+=`\nArrival instructions / access details: ${sentence(c.notes)}`; }
+  else if(c.notes) details=sentence(c.notes);
+  else if(ev.location) details=`Service address: ${sentence(ev.location)}`;
+  const dir=new Map(therapists.map(t=>[normName(`${t.first_name} ${String(t.last_initial||'').charAt(0)}`),t]));
+  const lines=ev.therapistNames.map(name=>{ const t=dir.get(normName(name)); return `${name} — Tel: ${t?.phone||'—'} · Email: ${t?.email||'—'}`; }).join('\n')||'—';
+  const links=ev.publicToken?`\n\nPrivate therapist links (access code required):\n${ev.therapistNames.map((nm,i)=>`${nm}: ${therapistRosterUrl(ev,i+1)}`).join('\n')}`:'';
+  return `Client: ${client}\nPoint of Contact: ${c.contact||'—'}\nEmail: ${c.email||'—'}\nPhone: ${c.phone||'—'}\n\nAdditional Client Details: ${details}\n\nTherapist(s): ${lines}\nDate: ${evLongDate(ev)}\nTime: ${evTime(ev)}${links}\nTherapist access code: ${ev.therapistCode||'—'}`;
+}
+async function newAccessCode(ev){
+  if(ev.therapistCode){
+    const r=await ask({title:'Replace the access code?',html:'The old code stops working right away. Send the new code to every therapist on this event.',ok:'Create new code'});
+    if(!r.ok) return;
+  }
+  const code=String(100000+(crypto.getRandomValues(new Uint32Array(1))[0]%900000));
+  const {error}=await sb.from('events').update({therapist_code:code,therapist_code_hash:await sha256(code),updated_at:new Date().toISOString()}).eq('id',ev.id).eq('organization_id',org.id);
+  if(error){ toast('Could not save the code: '+error.message); return; }
+  await reloadEvent(ev.id); toast(`New access code: ${code}`); render();
+}
+async function calendarAction(action,extra={}){
+  const {data,error}=await sb.functions.invoke('google-calendar',{body:{action,...extra}});
+  if(error){
+    let message=error.message||'Calendar service request failed.';
+    try{ const res=error.context; if(res&&typeof res.clone==='function'){ const p=await res.clone().json(); if(p&&p.error) message=p.error; } }catch{}
+    throw new Error(message);
+  }
+  if(data&&data.error) throw new Error(data.error);
+  return data||{};
+}
+async function syncInvite(ev,btn){
+  const r=await ask({title:ev.calendarInvitesEnabled?'Update Google Calendar?':'Sync to Google Calendar?',html:ev.calendarInvitesEnabled?'This updates the calendar event and the invitations already sent to the assigned therapists.':'This creates the calendar event and emails an invitation to each assigned therapist.',ok:'Continue'});
+  if(!r.ok) return;
+  const m=$('calMsg'); btn.disabled=true; m.className='msg muted'; m.textContent='Sending to Google Calendar…';
+  try{ const d=await calendarAction('sync-event-invite',{event_id:ev.id}); await reloadEvent(ev.id); m.className='msg ok'; m.textContent=`Calendar synced. ${d.invited||0} invitation${d.invited===1?'':'s'} sent.`; }
+  catch(err){ m.className='msg err'; m.textContent=err.message||'Could not sync the calendar.'; }
+  finally{ btn.disabled=false; }
+}
+
+
+/* Staffing: seats + offers (hand pick or system) */
+const OFFER_RULES={hours:4,stopBeforeHours:24};
+function tabStaff(ev){
+  const names=ev.therapistNames, seats=names.length, open=names.filter(isOpenSeat).length, filled=seats-open;
+  const maxBooked=S.bookings.reduce((m,b)=>Math.max(m,Number(b.therapist)||0),0);
+  const locked=!!ev.deletedAt||hasEnded(ev);
+  const mode=S.staffMode||'pick'; S.picks=S.picks||new Set();
+  const active=therapists.filter(t=>!t.archived).sort((a,b)=>therLabel(a).localeCompare(therLabel(b)));
+  $('tabBody').innerHTML=`<div class="stack">
+    <section class="card stack" aria-labelledby="seatT">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><div class="lbl" id="seatT">Therapists needed</div>
+          <div style="display:flex;align-items:center;border:1px solid var(--ink)"><button class="ghost" style="border:0;min-height:38px;width:40px;padding:0" id="seatMinus" aria-label="One fewer therapist" ${locked?'disabled':''}>−</button><span style="min-width:44px;text-align:center;font:400 24px var(--serif)" aria-live="polite">${seats}</span><button class="ghost" style="border:0;min-height:38px;width:40px;padding:0" id="seatPlus" aria-label="One more therapist" ${locked?'disabled':''}>+</button></div>
+          <span class="muted small">No limit</span></div>
+        <span class="muted small">${filled} on roster · ${open} open</span>
+      </div>
+      <div>${names.map((n,i)=>`<div class="row"><span style="display:flex;gap:12px;align-items:center"><span class="lbl" style="width:56px">Seat ${i+1}</span><strong>${isOpenSeat(n)?'Open':esc(n)}</strong></span>${isOpenSeat(n)?'<span class="pill rust">Needs therapist</span>':'<span class="pill dark">On roster</span>'}</div>`).join('')}</div>
+      <p class="help">A therapist who accepts fills an open seat and goes on the roster. The event links don't change.</p>
+    </section>
+    ${locked?'':`<section class="card stack" aria-labelledby="sendT">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><div class="lbl" id="sendT">Send offer · ${open} open seat${open===1?'':'s'}</div>
+        <div class="segs" role="group" aria-label="How to send"><button class="seg${mode==='pick'?' on':''}" id="mPick" aria-pressed="${mode==='pick'}">Hand pick</button><button class="seg${mode==='auto'?' on':''}" id="mAuto" aria-pressed="${mode==='auto'}">System sends</button></div></div>
+      ${mode==='pick'?`<p class="muted" style="margin:0">Tick as many as you want. No limit. Only they get the offer, and the first to accept fill the open seats.</p>
+        <div>${active.map(t=>`<label class="tline" style="cursor:pointer"><span style="display:flex;gap:12px;align-items:center"><input type="checkbox" data-op="${t.id}" ${S.picks.has(t.id)?'checked':''} style="width:20px;height:20px;accent-color:#111"><strong>${esc(therLabel(t))}</strong></span></label>`).join('')||'<p class="help">Your therapist list is empty. Add people on the Therapists page.</p>'}</div>
+        <div style="background:var(--ink);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px"><span id="pickLine">${S.picks.size?`${S.picks.size} picked`:'Tick at least one therapist'}</span><span style="display:flex;gap:8px"><button class="ghost sm" id="clearPicks" style="background:none;color:#fff;border-color:#fff">Clear</button><button class="ghost sm" id="sendPicked" disabled>Send offer to picked</button></span></div>`
+      :`<p style="margin:0">The system sends the offer to every eligible therapist at once. The first ones to accept fill the open seats. When every seat is full, the offer closes for everyone else.</p>
+        <div><div class="row"><span class="muted">Time to accept</span><strong>${OFFER_RULES.hours} hours · extends until full</strong></div><div class="row"><span class="muted">Stops</span><strong>${OFFER_RULES.stopBeforeHours} hours before the event · alerts you</strong></div></div>
+        <div><button class="btn" id="startAuto" disabled>Start system offers</button></div>`}
+      <div class="lock small"><strong>Sending is the next build step.</strong> Offers need the email sender set up in the test project first. Until then, use Setup → Add therapist to put people straight on the event.</div>
+    </section>`}
+  </div>`;
+  const saveNames=async(next,breaks)=>{
+    const {error}=await sb.from('events').update({therapists:next.length,therapist_names:next,breaks,updated_at:new Date().toISOString()}).eq('id',ev.id).eq('organization_id',org.id);
+    if(error){ toast('Could not save: '+error.message); return; }
+    await reloadEvent(ev.id); render();
+  };
+  if($('seatPlus')) $('seatPlus').onclick=()=>saveNames([...names,`Therapist ${seats+1}`],ev.breaks);
+  if($('seatMinus')) $('seatMinus').onclick=()=>{
+    const last=names[seats-1];
+    if(seats<=1) return toast('An event needs at least one seat.');
+    if(!isOpenSeat(last)) return toast(`The last seat has ${last}. Remove them on Setup first.`);
+    if(maxBooked>=seats) return toast('The last seat has bookings, so it stays.');
+    saveNames(names.slice(0,-1),ev.breaks.filter(b=>b.therapist<seats));
+  };
+  if($('mPick')) $('mPick').onclick=()=>{ S.staffMode='pick'; tabStaff(ev); };
+  if($('mAuto')) $('mAuto').onclick=()=>{ S.staffMode='auto'; tabStaff(ev); };
+  document.querySelectorAll('[data-op]').forEach(cb=>cb.onchange=()=>{ cb.checked?S.picks.add(cb.dataset.op):S.picks.delete(cb.dataset.op); $('pickLine').textContent=S.picks.size?`${S.picks.size} picked`:'Tick at least one therapist'; });
+  if($('clearPicks')) $('clearPicks').onclick=()=>{ S.picks=new Set(); tabStaff(ev); };
+}
+
+/* Bookings */
+function tabBookings(ev){
+  const draw=()=>{
+    const slots=slotsFor(ev); const byId=new Map(S.bookings.map(b=>[b.slot_id,b]));
+    const done=S.bookings.filter(b=>b.attendance==='Completed').length, noshow=S.bookings.filter(b=>b.attendance==='No-show').length, concern=S.bookings.filter(b=>/^yes\b/i.test(String(b.pregnancy||''))).length;
+    const showOpen=S.showOpen!==false;
+    const rows=slots.sort((a,b)=>a.start-b.start||a.therapist-b.therapist).map(s=>{
+      const b=byId.get(s.id);
+      if(b) return `<tr><td><strong>${clock(s.start)}</strong></td><td>${esc(therapistName(ev,s.therapist))}</td><td>${esc(employeeDisplayName(b.first_name,bookingLastName(b)))}<div class="url">${esc(b.email||'')}</div></td><td class="${/^yes\b/i.test(String(b.pregnancy||''))?'concern':'muted'}">${esc(b.pregnancy||'Not answered')}</td><td><span class="pill ${b.attendance==='Completed'?'dark':b.attendance==='No-show'?'warn':''}">${esc(b.attendance||'Scheduled')}</span></td></tr>`;
+      if(!showOpen) return '';
+      if(blockedByBreak(ev,s)) return `<tr class="open"><td>${clock(s.start)}</td><td>${esc(therapistName(ev,s.therapist))}</td><td colspan="3">Break</td></tr>`;
+      return `<tr class="open"><td>${clock(s.start)}</td><td>${esc(therapistName(ev,s.therapist))}</td><td colspan="3">Open</td></tr>`;
+    }).join('');
+    const orphan=S.bookings.filter(b=>!slots.some(s=>s.id===b.slot_id));
+    $('tabBody').innerHTML=`<div class="stack">
+      <div class="metrics"><div class="metric"><span class="lbl">Booked</span><strong>${S.bookings.length} / ${capacity(ev)}</strong></div><div class="metric"><span class="lbl">Completed</span><strong>${done}</strong></div><div class="metric"><span class="lbl">No-show</span><strong>${noshow}</strong></div><div class="metric"><span class="lbl">Concern noted</span><strong>${concern}</strong></div></div>
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
+        <label class="small" style="display:inline-flex;gap:8px;align-items:center;min-height:36px"><input type="checkbox" id="showOpen" ${showOpen?'checked':''}> Show open times and breaks</label>
+        <button class="ghost sm" id="csvBtn" ${S.bookings.length?'':'disabled'}>Export CSV</button>
+      </div>
+      <div class="card" style="padding:4px 18px 10px">${slots.length?`<table class="table"><thead><tr><th>Time</th><th>Therapist</th><th>Employee</th><th>Medical condition concern</th><th>Status</th></tr></thead><tbody>${rows||'<tr><td colspan="5" class="muted">No bookings yet.</td></tr>'}</tbody></table>`:'<p class="empty">Set the date and hours on Setup to create times.</p>'}</div>
+      ${orphan.length?`<div class="lock"><strong>${orphan.length} booking${orphan.length===1?'':'s'} outside the current schedule.</strong> They are kept and appear in the CSV and the record.</div>`:''}
+      <p class="help">Updates every 15 seconds. Therapists mark attendance from their own view.</p></div>`;
+    $('showOpen').onchange=e=>{ S.showOpen=e.target.checked; draw(); };
+    $('csvBtn').onclick=()=>exportCsv(ev);
+  };
+  draw();
+  S.poll=setInterval(async()=>{ try{ await loadEventBookings(ev); draw(); }catch{} },15000);
+}
+function exportCsv(ev){
+  if(!S.bookings.length){ toast('There are no bookings to export.'); return; }
+  const header=['Time','Therapist','First Name','Last Name','Email','Medical Condition','Attendance'];
+  const rows=S.bookings.slice().sort((a,b)=>a.slot_start-b.slot_start).map(b=>[clock(b.slot_start),therapistName(ev,b.therapist),b.first_name,bookingLastName(b),b.email,b.pregnancy||'',b.attendance||'']);
+  const csv=[header,...rows].map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download=`${slug(ev.company)||'chair-massage'}-attendees.csv`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),5000);
+}
+
+/* Setup: one page, one Save */
+function freshDraft(ev){ return JSON.parse(JSON.stringify({company:ev.company,location:ev.location,date:ev.date,start:ev.start,end:ev.end,session:ev.session,buffer:ev.buffer,names:ev.therapistNames.slice(),breaks:ev.breaks.map(b=>({...b})),client:{...ev.client},finance:{...ev.finance}})); }
+function tabSetup(ev){
+  if(!S.draft) S.draft=freshDraft(ev);
+  const d=S.draft, booked=S.bookings.length>0, ended=hasEnded(ev), readOnly=!!ev.deletedAt;
+  const lockSchedule=booked||ended||readOnly, lockTeam=ended||readOnly;
+  const maxBooked=S.bookings.reduce((m,b)=>Math.max(m,Number(b.therapist)||0),0);
+  const timeOpts=(min,max)=>{ let o=''; for(let t=min;t<max;t+=5) o+=`<option value="${hhmm(t)}">${clock(t)}</option>`; return o; };
+  const c=d.client;
+  $('tabBody').innerHTML=`<form class="stack" id="setupForm" novalidate>
+    ${readOnly?'<div class="lock">Restore the event to edit it.</div>':''}
+    <section class="card stack" aria-labelledby="sE"><div class="lbl" id="sE">Event</div>
+      <div class="grid2">
+        <div class="field" style="grid-column:1/-1"><label for="fName">Client or event name</label><input id="fName" value="${esc(d.company)}" ${readOnly?'disabled':''}></div>
+        <div class="field"><label for="fLoc">Location shown on the booking page</label><input id="fLoc" value="${esc(d.location)}" ${readOnly?'disabled':''}></div>
+        <div class="field"><label for="fDate">Date</label><input id="fDate" type="date" value="${esc(d.date)}" ${lockSchedule?'disabled':''}></div>
+        <div class="field"><label for="fStart">Start</label><input id="fStart" type="time" value="${esc(d.start)}" ${lockSchedule?'disabled':''}></div>
+        <div class="field"><label for="fEnd">End</label><input id="fEnd" type="time" value="${esc(d.end)}" ${lockSchedule?'disabled':''}></div>
+        <div class="field"><label for="fSession">Massage time</label><select id="fSession" ${lockSchedule?'disabled':''}>${SESSION_OPTIONS.map(v=>`<option value="${v}" ${v===d.session?'selected':''}>${v} minutes</option>`).join('')}</select></div>
+        <div class="field"><label for="fBuffer">Reset between people</label><select id="fBuffer" ${lockSchedule?'disabled':''}>${BUFFER_OPTIONS.map(([v,l])=>`<option value="${v}" ${v===d.buffer?'selected':''}>${l}</option>`).join('')}</select></div>
+      </div>
+      ${lockSchedule&&!readOnly?`<p class="help">${ended?'The event has ended, so the schedule is locked.':`Date, hours and timing are locked because ${S.bookings.length} ${S.bookings.length===1?'person has':'people have'} booked. Changing them would move their times.`}</p>`:''}
+      <p class="help" id="capLine"></p>
+    </section>
+
+    <section class="card stack" aria-labelledby="sT"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><div class="lbl" id="sT">Therapists &amp; breaks</div>${lockTeam?'':'<button class="ghost sm" type="button" id="addTher">Add therapist</button>'}</div>
+      <datalist id="dirList">${therapists.filter(t=>!t.archived).map(t=>`<option value="${esc(t.first_name+' '+String(t.last_initial||'').charAt(0).toUpperCase()+'.')}"></option>`).join('')}</datalist>
+      <div id="addPanel" hidden></div>
+      <div id="therRows"></div>
+      <div id="breakRows"></div>
+      ${lockTeam?'':`<div class="grid2" style="align-items:end">
+        <div class="field"><label for="bTher">Break for</label><select id="bTher"></select></div>
+        <div class="field"><label for="bStart">Break starts</label><select id="bStart">${timeOpts(minutes(d.start),minutes(d.end))}</select></div>
+        <div class="field"><label for="bLen">Length</label><select id="bLen">${BREAK_OPTIONS.map(v=>`<option value="${v}" ${v===30?'selected':''}>${v} minutes</option>`).join('')}</select></div>
+        <div><button class="ghost" type="button" id="addBreak">Add break</button></div></div>
+        <p class="msg err" id="breakMsg" role="alert" hidden></p>`}
+      <p class="help">Type a name or pick from your therapist list. Breaks are removed from the booking page automatically.</p>
+    </section>
+
+    <section class="card stack" aria-labelledby="sC"><div class="lbl" id="sC">Client</div>
+      <div class="grid2">
+        <div class="field"><label for="cCompany">Billing company</label><input id="cCompany" value="${esc(c.company||'')}" ${readOnly?'disabled':''}></div>
+        <div class="field"><label for="cContact">Point of contact</label><input id="cContact" value="${esc(c.contact||'')}" ${readOnly?'disabled':''}></div>
+        <div class="field"><label for="cEmail">Email</label><input id="cEmail" type="email" value="${esc(c.email||'')}" ${readOnly?'disabled':''}></div>
+        <div class="field"><label for="cPhone">Phone</label><input id="cPhone" type="tel" value="${esc(c.phone||'')}" ${readOnly?'disabled':''}></div>
+      </div>
+      <div class="field"><label for="cAddr">Service address</label><input id="cAddr" value="${esc(c.serviceAddress||'')}" placeholder="Street, floor, suite" ${readOnly?'disabled':''}></div>
+      <div class="field"><label for="cNotes">Arrival instructions</label><textarea id="cNotes" placeholder="Check-in desk, freight elevator, COI" ${readOnly?'disabled':''}>${esc(c.notes||'')}</textarea></div>
+      <div class="field"><label for="cInvoice">Invoice or quote link</label><input id="cInvoice" type="url" value="${esc(c.invoice||'')}" placeholder="https://" ${readOnly?'disabled':''}></div>
+    </section>
+
+
+    ${readOnly?'':`<div class="sticky-save"><span class="small" id="saveState" role="status">No unsaved changes</span><div style="display:flex;gap:8px"><button class="ghost" type="button" id="discard" hidden>Discard</button><button class="btn" type="submit" id="saveBtn">Save changes</button></div></div>
+    <p class="msg err" id="saveMsg" role="alert" hidden></p>`}
+  </form>`;
+
+  const read=()=>{
+    if(readOnly) return;
+    d.company=$('fName').value; d.location=$('fLoc').value;
+    if(!lockSchedule){ d.date=$('fDate').value; d.start=$('fStart').value; d.end=$('fEnd').value; d.session=Number($('fSession').value); d.buffer=Number($('fBuffer').value); }
+    if(!lockTeam) d.names=[...document.querySelectorAll('[data-ther-name]')].map(i=>i.value);
+    d.client={company:$('cCompany').value,contact:$('cContact').value,email:$('cEmail').value,phone:$('cPhone').value,serviceAddress:$('cAddr').value,notes:$('cNotes').value,invoice:$('cInvoice').value};
+  };
+  const preview=()=>({...ev,company:d.company,date:d.date,start:d.start,end:d.end,session:d.session,buffer:d.buffer,therapists:Math.max(d.names.length,1),therapistNames:d.names,breaks:d.breaks,finance:d.finance});
+  const markDirty=()=>{ S.dirty=true; if($('saveState')){ $('saveState').textContent='Unsaved changes'; $('saveState').style.color='var(--rust)'; $('discard').hidden=false; } };
+  const totals=()=>{
+    const p=preview(); const cap=capacity(p);
+    $('capLine').textContent=d.date&&minutes(d.end)>minutes(d.start)?`${cap} appointment times across ${p.therapists} therapist${p.therapists===1?'':'s'}.`:'Set a date and an end time after the start.';
+  };
+  const drawTeam=()=>{
+    $('therRows').innerHTML=d.names.map((nm,i)=>{
+      const t=therapists.find(x=>normName(`${x.first_name} ${String(x.last_initial||'').charAt(0)}`)===normName(nm));
+      const locked=lockTeam||maxBooked>=i+1||d.names.length===1;
+      const why=lockTeam?'':maxBooked>=i+1?'Has bookings':'';
+      return `<div class="tline"><div class="field"><label for="tn${i}" class="sr-only">Therapist ${i+1}</label><input id="tn${i}" data-ther-name list="dirList" autocomplete="off" value="${esc(nm)}" placeholder="Therapist ${i+1} name" ${lockTeam?'disabled':''}><span class="help">${t?esc(`${t.phone} · ${t.email}`):'Not in your therapist list'}</span></div>
+        ${lockTeam?'':`<button class="ghost sm" type="button" data-remove="${i}" ${locked?'disabled':''} title="${esc(why)}">${why||'Remove'}</button>`}</div>`;
+    }).join('');
+    const brs=d.breaks.slice().sort((a,b)=>a.therapist-b.therapist||a.start-b.start);
+    $('breakRows').innerHTML=brs.length?brs.map(br=>`<div class="tline"><span><strong>${esc(d.names[br.therapist-1]||'Therapist '+br.therapist)}</strong> · break ${clock(br.start)} – ${clock(br.start+br.duration)}</span>${lockTeam?'':`<button class="ghost sm" type="button" data-unbreak="${esc(String(br.id))}">Remove</button>`}</div>`).join(''):'<p class="help">No breaks.</p>';
+    if($('bTher')) $('bTher').innerHTML=d.names.map((nm,i)=>`<option value="${i+1}">${esc(nm||'Therapist '+(i+1))}</option>`).join('');
+    document.querySelectorAll('[data-ther-name]').forEach(inp=>inp.oninput=()=>{ read(); markDirty(); });
+    document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{
+      read(); const i=Number(b.dataset.remove); d.names.splice(i,1);
+      d.breaks=d.breaks.filter(br=>br.therapist!==i+1).map(br=>br.therapist>i+1?{...br,therapist:br.therapist-1}:br);
+      markDirty(); drawTeam(); totals();
+    });
+    document.querySelectorAll('[data-unbreak]').forEach(b=>b.onclick=()=>{ d.breaks=d.breaks.filter(br=>String(br.id)!==b.dataset.unbreak); markDirty(); drawTeam(); totals(); });
+  };
+  drawTeam(); totals();
+  if(readOnly) return;
+  $('setupForm').addEventListener('input',e=>{ if(e.target.matches('[data-ther-name]')) return; if(e.target.closest('#bTher,#bStart,#bLen')) return; read(); markDirty(); totals(); });
+  if($('addTher')) $('addTher').onclick=()=>{ const p=$('addPanel'); if(!p.hidden){ p.hidden=true; $('addTher').textContent='Add therapist'; return; } read(); openAddPanel(); };
+  const openAddPanel=()=>{
+    const p=$('addPanel'), picked=new Set(); p.hidden=false; $('addTher').textContent='Close';
+    const onEvent=new Set(d.names.map(normName));
+    const list=therapists.filter(t=>!t.archived).sort((a,b)=>therLabel(a).localeCompare(therLabel(b)));
+    p.innerHTML=`<div style="border:1px solid var(--ink);padding:18px" class="stack">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><h3 class="serif" style="margin:0;font-size:24px">Add to this event</h3><span class="muted small">From your therapist list</span></div>
+      <div class="field"><label for="addSearch" class="sr-only">Search therapists</label><input id="addSearch" placeholder="Search by name" autocomplete="off"></div>
+      <div id="addList" style="max-height:320px;overflow:auto"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" id="addGo" disabled>Add to event</button><button class="ghost" type="button" id="addSeat">Add an open seat</button><button class="ghost" type="button" id="addCancel">Cancel</button></div>
+      <p class="help">Adding puts them straight on the roster, with their own personal link. To ask first, add an open seat and send an offer from Staffing.</p></div>`;
+    const drawList=()=>{
+      const q=normName($('addSearch').value);
+      const rows=list.filter(t=>!q||normName(therLabel(t)).includes(q));
+      $('addList').innerHTML=rows.length?rows.map(t=>{ const on=picked.has(t.id), already=onEvent.has(normName(therLabel(t))); return `<label class="tline" style="cursor:pointer"><span style="display:flex;gap:12px;align-items:center"><input type="checkbox" data-pick="${t.id}" ${on?'checked':''} style="width:20px;height:20px;accent-color:#111"><span><strong>${esc(therLabel(t))}</strong><div class="muted small">${esc(t.phone)} · ${esc(t.email)}</div></span></span>${already?'<span class="muted small">On this event</span>':''}</label>`; }).join(''):'<p class="help">No therapist matches. Add new people on the Therapists page.</p>';
+      document.querySelectorAll('[data-pick]').forEach(cb=>cb.onchange=()=>{ cb.checked?picked.add(cb.dataset.pick):picked.delete(cb.dataset.pick); $('addGo').disabled=!picked.size; $('addGo').textContent=picked.size?`Add ${picked.size} to event`:'Add to event'; });
+    };
+    $('addSearch').oninput=drawList; drawList(); $('addSearch').focus();
+    $('addCancel').onclick=()=>{ p.hidden=true; $('addTher').textContent='Add therapist'; };
+    $('addSeat').onclick=()=>{ read(); d.names.push(`Therapist ${d.names.length+1}`); markDirty(); drawTeam(); totals(); toast('Open seat added. Save, then send an offer from Staffing.'); };
+    $('addGo').onclick=()=>{
+      read();
+      list.filter(t=>picked.has(t.id)).forEach(t=>{ const label=therLabel(t); const open=d.names.findIndex(isOpenSeat); if(open>=0) d.names[open]=label; else d.names.push(label); });
+      p.hidden=true; $('addTher').textContent='Add therapist'; markDirty(); drawTeam(); totals(); toast('Added. Press Save changes to keep it.');
+    };
+  };
+  if($('addBreak')) $('addBreak').onclick=()=>{
+    read(); const msg=$('breakMsg'); msg.hidden=true;
+    const th=Number($('bTher').value), st=minutes($('bStart').value), len=Number($('bLen').value);
+    if(st<minutes(d.start)||st+len>minutes(d.end)){ msg.textContent='The break must fit inside the event hours.'; msg.hidden=false; return; }
+    const clash=S.bookings.find(b=>b.therapist===th&&overlaps(b.slot_start,d.session,st,len));
+    if(clash){ msg.textContent=`${d.names[th-1]||'This therapist'} has a booking at ${clock(clash.slot_start)}. Choose another time.`; msg.hidden=false; return; }
+    if(d.breaks.some(br=>br.therapist===th&&overlaps(br.start,br.duration,st,len))){ msg.textContent='That overlaps a break already added.'; msg.hidden=false; return; }
+    d.breaks.push({id:Date.now(),therapist:th,start:st,duration:len}); markDirty(); drawTeam(); totals();
+  };
+  $('discard').onclick=()=>{ S.draft=null; S.dirty=false; tabSetup(ev); };
+  $('setupForm').onsubmit=async e=>{
+    e.preventDefault(); read();
+    const msg=$('saveMsg'); const fail=t=>{ msg.textContent=t; msg.hidden=false; msg.scrollIntoView({block:'center',behavior:'smooth'}); };
+    msg.hidden=true;
+    const name=d.company.trim(); if(!name) return fail('Enter the client or event name.');
+    if(!d.date) return fail('Choose the event date.');
+    if(minutes(d.end)<=minutes(d.start)) return fail('The end time must be after the start time.');
+    const names=d.names.map((n,i)=>String(n||'').trim()||`Therapist ${i+1}`); if(!names.length) return fail('Add at least one therapist.');
+    const email=d.client.email.trim(); if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail('Enter a valid client email.');
+    const inv=d.client.invoice.trim(); if(inv&&!/^https?:\/\//i.test(inv)) return fail('The invoice link must start with https://');
+    const client={}; CLIENT_KEYS.forEach(k=>{ const v=String(d.client[k]||'').trim(); if(v) client[k]=v; });
+    const keep={...ev.client}; Object.keys(keep).forEach(k=>{ if(CLIENT_KEYS.includes(k)) delete keep[k]; }); // keep any other saved client keys untouched
+    const start=minutes(d.start), end=minutes(d.end);
+    const breaks=d.breaks.filter(br=>br.therapist<=names.length&&br.start>=start&&br.start+br.duration<=end);
+    const payload={company:name,location:d.location.trim()||'New York, NY',event_date:d.date,start_time:d.start,end_time:d.end,session_min:d.session,buffer_min:d.buffer,therapists:names.length,therapist_names:names,breaks,client:{...keep,...client},updated_at:new Date().toISOString()};
+    const btn=$('saveBtn'); btn.disabled=true; btn.textContent='Saving…';
+    // Updates exactly this event. The event ID and its link token are never changed.
+    const {error}=await sb.from('events').update(payload).eq('id',ev.id).eq('organization_id',org.id);
+    btn.disabled=false; btn.textContent='Save changes';
+    if(error) return fail('Could not save: '+error.message);
+    S.dirty=false; S.draft=null; await reloadEvent(ev.id); toast('Saved.'); render();
+  };
+}
+
+/* Record */
+async function tabRecord(ev){
+  const body=$('tabBody'); body.innerHTML='<div class="loading">Loading the record…</div>';
+  try{
+    const {data,error}=await sb.from('event_records').select('*').eq('organization_id',org.id).eq('event_id',ev.id).maybeSingle();
+    if(error) throw error;
+    S.record=data||null; S.notes=[];
+    if(S.record){ const n=await sb.from('event_record_notes').select('*').eq('organization_id',org.id).eq('event_record_id',S.record.id).order('created_at',{ascending:false}); if(n.error) throw n.error; S.notes=n.data||[]; }
+  }catch(err){ body.innerHTML=`<div class="card stack"><p class="msg err">${esc(err.message||'The record could not be loaded.')}</p><div><button class="ghost" id="retry">Try again</button></div></div>`; $('retry').onclick=()=>tabRecord(ev); return; }
+  const r=S.record;
+  if(!r){
+    if(!hasEnded(ev)){ const e=evEnd(ev); body.innerHTML=`<div class="card stack" style="max-width:640px"><div class="lbl">Official record</div><h2 class="serif" style="margin:0;font-size:28px">Available after the event</h2><p class="muted" style="margin:0">You can finalize after ${esc(e?e.toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric',hour:'numeric',minute:'2-digit'}):'the event ends')}. Until then attendance can still change. The attendee list is under More → Export.</p></div>`; return; }
+    body.innerHTML=`<div class="stack"><div class="card stack"><div class="lbl">Official record</div><h2 class="serif" style="margin:0;font-size:28px">Ready to finalize</h2>
+      <p class="muted" style="margin:0">The event has ended. Finalizing saves a locked copy of every booking, answer and acknowledgment as they are now, and creates a PDF. The original can never be edited or deleted. Later fixes are added as dated notes.</p>
+      ${ev.deletedAt?'<p class="help">Restore the event to finalize it.</p>':'<div><button class="btn" id="finalize">Finalize record</button></div>'}</div>
+      ${recordTable(S.bookings,'Current roster')}</div>`;
+    if($('finalize')) $('finalize').onclick=e=>finalize(ev,e.currentTarget);
+    return;
+  }
+  const snap=r.snapshot||{}, bks=Array.isArray(snap.bookings)?snap.bookings:[], sealed=!!r.finalized_at;
+  const audit=[...(sealed?[{t:'PDF sealed',d:r.finalized_at}]:[]),{t:'Official snapshot captured',d:r.captured_at},...S.notes.map(n=>({t:'Correction note',d:n.created_at,n:n.note}))].sort((a,b)=>new Date(b.d)-new Date(a.d));
+  body.innerHTML=`<div class="cols" style="grid-template-columns:minmax(0,2fr) minmax(260px,1fr)">
+    <div class="stack" style="min-width:0">
+      <div class="card stack"><div class="lbl">Official record</div><h2 class="serif" style="margin:0;font-size:28px">${sealed?'Finalized · read-only':'Snapshot saved · PDF not finished'}</h2>
+        <p class="muted" style="margin:0">${sealed?`Locked ${esc(evRecordDate(r.finalized_at))}. Bookings, answers and acknowledgments are kept exactly as they were.`:'The locked snapshot exists. Create the PDF to finish.'}</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">${sealed?`<button class="btn" id="pdfView">View PDF</button><button class="ghost" id="pdfDl">Download PDF</button>`:`<button class="btn" id="pdfMake">Create locked PDF</button>`}<button class="ghost" id="recCsv">Export CSV</button></div>
+        ${sealed?`<details><summary class="small" style="cursor:pointer;min-height:32px">PDF looks blank or damaged?</summary><p class="help">Rebuild it from the locked data. The record and its fingerprint do not change.</p><button class="ghost sm" id="pdfRebuild">Rebuild PDF</button></details>`:''}
+      </div>
+      ${recordTable(bks,'Final attendance')}
+    </div>
+    <aside class="stack">
+      <div class="card stack"><div class="lbl">Add a correction note</div><p class="help">Adds a dated note. The original stays unchanged.</p>
+        <div class="field"><label for="noteText" class="sr-only">Correction note</label><textarea id="noteText" placeholder="A factual correction or clarification"></textarea></div>
+        <button class="ghost" id="noteAdd">Add dated note</button><p class="msg" id="noteMsg" role="status"></p></div>
+      <div class="card stack"><div class="lbl">History</div><div class="audit">${audit.map(a=>`<div><strong>${esc(a.t)}</strong><div class="muted small">${esc(evRecordDate(a.d))}</div>${a.n?`<div>${esc(a.n)}</div>`:''}</div>`).join('')}</div>
+        <p class="help" style="overflow-wrap:anywhere">Fingerprint ${esc(String(r.snapshot_hash||'').slice(0,16))}…</p></div>
+    </aside></div>`;
+  if($('pdfView')) $('pdfView').onclick=()=>openPdf(false);
+  if($('pdfDl')) $('pdfDl').onclick=()=>openPdf(true);
+  if($('pdfMake')) $('pdfMake').onclick=async e=>{ const b=e.currentTarget; b.disabled=true; b.textContent='Creating PDF…'; try{ await finishPdf(S.record); await refreshRecordIndex(); tabRecord(ev); }catch(err){ toast(err.message||'The PDF could not be created.'); b.disabled=false; b.textContent='Create locked PDF'; } };
+  if($('pdfRebuild')) $('pdfRebuild').onclick=async e=>{
+    const ok=await ask({title:'Rebuild the PDF?',html:'The PDF is redrawn from the locked data. The record and its fingerprint do not change.',ok:'Rebuild PDF'}); if(!ok.ok) return;
+    const b=e.currentTarget; b.disabled=true; b.textContent='Rebuilding…';
+    try{ const blob=await buildEventRecordPdf(S.record); const up=await sb.storage.from('event-records').upload(S.record.pdf_path,blob,{contentType:'application/pdf',upsert:true,cacheControl:'0'}); if(up.error) throw up.error; toast('PDF rebuilt.'); }
+    catch(err){ toast(err.message||'The PDF could not be rebuilt.'); } finally{ b.disabled=false; b.textContent='Rebuild PDF'; }
+  };
+  $('recCsv').onclick=()=>recordCsv(ev,bks);
+  $('noteAdd').onclick=async e=>{
+    const t=$('noteText').value.trim(), m=$('noteMsg'); if(!t){ m.className='msg err'; m.textContent='Write the note first.'; $('noteText').focus(); return; }
+    const b=e.currentTarget; b.disabled=true; b.textContent='Saving…';
+    const res=await sb.from('event_record_notes').insert({organization_id:org.id,event_record_id:S.record.id,note:t}).select().single();
+    if(res.error){ m.className='msg err'; m.textContent=res.error.message; b.disabled=false; b.textContent='Add dated note'; return; }
+    toast('Note added.'); tabRecord(ev);
+  };
+}
+function recordTable(bks,title){
+  const m=recordMetrics(bks);
+  return `<section class="card stack" aria-label="${esc(title)}"><div class="lbl">${esc(title)}</div>
+    <div class="metrics"><div class="metric"><span class="lbl">Bookings</span><strong>${m.bookings}</strong></div><div class="metric"><span class="lbl">Completed</span><strong>${m.completed}</strong></div><div class="metric"><span class="lbl">No-show</span><strong>${m.noShow}</strong></div><div class="metric"><span class="lbl">Concern noted</span><strong>${m.concerns}</strong></div></div>
+    ${bks.length?`<table class="table"><thead><tr><th>Employee</th><th>Time</th><th>Medical condition concern</th><th>Final status</th></tr></thead><tbody>${bks.slice().sort((a,b)=>(a.slot_start??0)-(b.slot_start??0)).map(b=>{ const cc=recordConcernText(b.medical_condition_concern??b.pregnancy); return `<tr><td>${esc(employeeDisplayName(b.first_name||'—',bookingLastName(b)))}<div class="url">${esc(b.email||'')}</div></td><td>${esc(recordTimeText(b.slot_start))}</td><td class="${recordConcernIsYes(cc)?'concern':'muted'}">${esc(cc)}</td><td>${esc(recordStatusText(b.attendance))}</td></tr>`; }).join('')}</tbody></table>`:'<p class="empty">No employee bookings were recorded.</p>'}
+  </section>`;
+}
+function recordCsv(ev,bks){
+  if(!bks.length){ toast('There are no bookings in this record.'); return; }
+  const header=['Time','First Name','Last Name','Email','Medical Condition','Final Status','Acknowledged By','Acknowledged At','Acknowledgment Version'];
+  const rows=bks.slice().sort((a,b)=>(a.slot_start??0)-(b.slot_start??0)).map(b=>[recordTimeText(b.slot_start),b.first_name||'',bookingLastName(b),b.email||'',recordConcernText(b.medical_condition_concern??b.pregnancy),recordStatusText(b.attendance),b.acknowledged_by||'',b.acknowledged_at||'',b.acknowledgment_version||'']);
+  const csv=[header,...rows].map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download=`${slug(ev.company)||'event'}-record.csv`; document.body.appendChild(a); a.click(); a.remove();
+}
+async function refreshRecordIndex(){ const rc=await sb.from('event_records').select('event_id,finalized_at').eq('organization_id',org.id); if(!rc.error) recordIndex=new Map((rc.data||[]).map(r=>[r.event_id,r])); updateBadge(); }
+async function finalize(ev,btn){
+  const r=await ask({title:'Finalize the official record?',html:'This saves a locked copy of the event and every booking as they are now, and creates a PDF. <strong>It cannot be edited or deleted.</strong> Later fixes are added as dated notes.',ok:'Finalize record'});
+  if(!r.ok) return;
+  btn.disabled=true; btn.textContent='Saving record…';
+  try{
+    const res=await sb.rpc('finalize_event_record',{p_event_id:ev.id}).single(); if(res.error) throw res.error;
+    S.record=res.data; btn.textContent='Creating PDF…'; await finishPdf(S.record);
+    await refreshRecordIndex(); toast('Record finalized.'); render();
+  }catch(err){ console.error(err); toast(err.message||'The record could not be finalized.'); btn.disabled=false; btn.textContent='Finalize record'; }
+}
+async function finishPdf(record){
+  if(record.finalized_at&&record.pdf_path) return record;
+  const blob=await buildEventRecordPdf(record), path=`${record.organization_id}/${record.id}.pdf`;
+  const up=await sb.storage.from('event-records').upload(path,blob,{contentType:'application/pdf',upsert:false,cacheControl:'3600'});
+  if(up.error&&!/already exists|duplicate/i.test(up.error.message||'')) throw up.error;
+  const done=await sb.rpc('complete_event_record_pdf',{p_record_id:record.id,p_pdf_path:path}).single(); if(done.error) throw done.error;
+  S.record=done.data; return S.record;
+}
+function recordFileName(record){ const e=record?.snapshot?.event||{}; const c=String(e.company||'Event').replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'')||'Event'; return `${c}_${String(e.event_date||'Record').replace(/-/g,'')}_Record.pdf`; }
+async function openPdf(download){
+  const r=S.record; if(!r?.pdf_path){ toast('The PDF has not been created yet.'); return; }
+  const win=download?null:window.open('about:blank','_blank');
+  try{
+    const res=await sb.storage.from('event-records').download(r.pdf_path); if(res.error) throw res.error;
+    const url=URL.createObjectURL(res.data);
+    if(download){ const a=document.createElement('a'); a.href=url; a.download=recordFileName(r); document.body.appendChild(a); a.click(); a.remove(); }
+    else if(win) win.location.href=url; else window.open(url,'_blank','noopener');
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+  }catch(err){ if(win) win.close(); toast(err.message||'The PDF could not be opened.'); }
+}
+
+/* Duplicate · delete · restore */
+async function duplicateEvent(ev){
+  const r=await ask({title:'Duplicate this event',html:`Copies the setup of <strong>${esc(ev.company)}</strong>: hours, therapists, breaks and client details. Bookings, the access code and calendar invites are not copied. The copy gets its own new link.`,ok:'Create copy',askDate:true});
+  if(!r.ok) return;
+  try{
+    const id=await ensureUniqueId(slug(ev.company)||'event'); if(id===ev.id) throw new Error('Could not create a copy.');
+    const {error}=await sb.from('events').insert({id,organization_id:org.id,company:ev.company,location:ev.location||'New York, NY',event_date:r.date,start_time:ev.start,end_time:ev.end,session_min:ev.session,buffer_min:ev.buffer,therapists:ev.therapists,therapist_names:ev.therapistNames,breaks:ev.breaks,client:ev.client,calendar_invites_enabled:false,updated_at:new Date().toISOString()});
+    if(error) throw error;
+    await reloadEvent(id); toast('Copy created. Check the details, then save.'); go(`#/event/${encodeURIComponent(id)}/setup`);
+  }catch(err){ toast(err.message||'Could not duplicate the event.'); }
+}
+async function trashAction(ev,action){
+  const cfg={
+    move:{title:'Move to Deleted?',html:`<strong>${esc(ev.company)}</strong> leaves Events and its booking link is paused.<br><br>Nothing is removed. The event, bookings, link and records are kept and can be restored.`,ok:'Move to Deleted',rpc:'move_event_to_trash',done:'moved to Deleted.'},
+    restore:{title:'Restore this event?',html:`<strong>${esc(ev.company)}</strong> comes back with the same link, bookings and records.`,ok:'Restore event',rpc:'restore_event_from_trash',done:'restored with the same link.'},
+    forever:{title:'Delete forever?',html:`This permanently removes the event setup, its bookings and its booking link. <strong>It cannot be undone.</strong> A finalized record stays protected.`,ok:'Delete forever',rpc:'delete_event_forever',done:'deleted forever.',danger:true,type:ev.company}
+  }[action];
+  const r=await ask({title:cfg.title,html:cfg.html,ok:cfg.ok,danger:!!cfg.danger,typeToMatch:cfg.type||null,typeLabel:cfg.type?`Type ${cfg.type} to confirm`:''});
+  if(!r.ok) return;
+  const {error}=await sb.rpc(cfg.rpc,{p_event_id:ev.id});
+  if(error){ toast(error.message||'Could not update the event.'); return; }
+  toast(`${ev.company} ${cfg.done}`); await loadAll(); S.ev=null;
+  if(action==='forever') go('#/events?list=del'); else if(action==='move') go('#/events?list=del'); else go(`#/event/${encodeURIComponent(ev.id)}`);
+}
+
+/* ---------- Therapists (one list for both divisions) ---------- */
+function isOpenSeat(n){ const v=String(n||'').trim(); return !v||/^therapist \d+$/i.test(v); }
+function therLabel(t){ return `${t.first_name} ${String(t.last_initial||'').charAt(0).toUpperCase()}.`; }
+function nextEventFor(t){
+  const key=normName(`${t.first_name} ${String(t.last_initial||'').charAt(0)}`), today=todayKey();
+  const up=events.filter(e=>!e.deletedAt&&e.date>=today&&e.therapistNames.some(n=>normName(n)===key)).sort((a,b)=>a.date.localeCompare(b.date))[0];
+  return up?`<a href="#/event/${encodeURIComponent(up.id)}">${esc(evShortDate(up))} · ${esc(up.company)}</a>`:'<span class="muted">—</span>';
+}
+function renderTherapists(){
+  const arch=therapists.filter(t=>t.archived).length;
+  const list=therapists.filter(t=>S.showArchivedTher?t.archived:!t.archived);
+  const ed=S.editTher?therapists.find(t=>t.id===S.editTher):null;
+  const formOpen=!!ed||S.therFormOpen;
+  view(`<div class="head"><div><div class="lbl">Shared with In-home</div><h1 class="page">Therapists</h1></div><button class="btn" type="button" id="therAdd" aria-expanded="${formOpen}">Add therapist</button></div>
+  <form class="card stack" id="therForm" novalidate ${formOpen?'':'hidden'} style="border-color:var(--ink);max-width:720px">
+    <h2 class="serif" style="margin:0;font-size:26px">${ed?'Edit '+esc(therLabel(ed)):'Add a therapist'}</h2>
+    <div class="grid2">
+      <div class="field"><label for="tFirst">First name</label><input id="tFirst" autocomplete="off" value="${esc(ed?.first_name||'')}"></div>
+      <div class="field"><label for="tLast">Last initial</label><input id="tLast" maxlength="1" autocomplete="off" value="${esc(ed?.last_initial||'')}"></div>
+      <div class="field"><label for="tPhone">Phone</label><input id="tPhone" type="tel" value="${esc(ed?.phone||'')}"></div>
+      <div class="field"><label for="tEmail">Email</label><input id="tEmail" type="email" value="${esc(ed?.email||'')}"></div>
+    </div>
+    <p class="msg err" id="tMsg" role="alert" hidden></p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="submit">${ed?'Save changes':'Save therapist'}</button><button class="ghost" type="button" id="tCancel">Cancel</button></div>
+    <p class="help">No login needed. When they're on an event, the calendar invite emails them the event summary, their private link and the access code.</p>
+  </form>
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+    <div class="segs" role="group" aria-label="Show"><a class="seg${S.showArchivedTher?'':' on'}" href="#/therapists" data-arch="0">Active</a><a class="seg${S.showArchivedTher?' on':''}" href="#/therapists" data-arch="1">Archived ${arch?`(${arch})`:''}</a></div>
+  </div>
+  <div class="card" style="padding:4px 18px 10px">${list.length?`<table class="table"><thead><tr><th>Therapist</th><th>Phone</th><th>Email</th><th>Next chair event</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>
+    ${list.map(t=>`<tr><td><strong>${esc(therLabel(t))}</strong></td><td>${esc(t.phone)}</td><td style="overflow-wrap:anywhere">${esc(t.email)}</td><td>${nextEventFor(t)}</td><td style="text-align:right;white-space:nowrap"><button class="ghost sm" data-edit="${t.id}">Edit</button> <button class="ghost sm" data-arch-t="${t.id}">${t.archived?'Restore':'Archive'}</button>${t.archived?` <button class="ghost sm danger" data-del="${t.id}">Delete</button>`:''}</td></tr>`).join('')}
+  </tbody></table>`:`<p class="empty">${S.showArchivedTher?'No archived therapists.':'No therapists yet. Add your first one above.'}</p>`}</div>`);
+  document.querySelectorAll('[data-arch]').forEach(a=>a.onclick=e=>{ e.preventDefault(); S.showArchivedTher=a.dataset.arch==='1'; renderTherapists(); });
+  document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{ S.editTher=b.dataset.edit; renderTherapists(); $('tFirst').focus(); });
+  $('tCancel').onclick=()=>{ S.editTher=null; S.therFormOpen=false; renderTherapists(); };
+  $('therAdd').onclick=()=>{ S.editTher=null; S.therFormOpen=!formOpen||!!ed; renderTherapists(); if(S.therFormOpen) $('tFirst').focus(); };
+  document.querySelectorAll('[data-arch-t]').forEach(b=>b.onclick=async()=>{ const t=therapists.find(x=>x.id===b.dataset.archT); const {error}=await sb.from('therapists').update({archived:!t.archived}).eq('id',t.id).eq('organization_id',org.id); if(error) return toast(error.message); await loadAll(); toast(`${therLabel(t)} ${t.archived?'restored':'archived'}.`); renderTherapists(); });
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{ const t=therapists.find(x=>x.id===b.dataset.del); const r=await ask({title:'Delete this therapist?',html:`${esc(therLabel(t))} is removed from your list. Past events keep the name they were saved with.`,ok:'Delete',danger:true}); if(!r.ok) return; const {error}=await sb.from('therapists').delete().eq('id',t.id).eq('organization_id',org.id); if(error) return toast(error.message); await loadAll(); toast('Therapist deleted.'); renderTherapists(); });
+  $('therForm').onsubmit=async e=>{
+    e.preventDefault(); const m=$('tMsg'); const fail=t=>{ m.textContent=t; m.hidden=false; };
+    const f=$('tFirst').value.trim(), l=$('tLast').value.trim(), p=$('tPhone').value.trim(), em=$('tEmail').value.trim();
+    if(!f||!l||!p||!em) return fail('All four fields are required.');
+    if(!/^[A-Za-z]$/.test(l.charAt(0))) return fail('Last initial must be a letter.');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) return fail('Enter a valid email address.');
+    if(p.replace(/\D/g,'').length<7) return fail('Enter a valid phone number.');
+    const payload={organization_id:org.id,first_name:f,last_initial:l.charAt(0).toUpperCase(),phone:p,email:em};
+    const q=S.editTher?sb.from('therapists').update(payload).eq('id',S.editTher).eq('organization_id',org.id):sb.from('therapists').insert(payload);
+    const {error}=await q; if(error) return fail(error.message);
+    toast(S.editTher?'Saved.':'Therapist added.'); S.editTher=null; S.therFormOpen=false; await loadAll(); renderTherapists();
+  };
+}
+
+/* ---------- Settings ---------- */
+function renderSettings(){
+  view(`<div><div class="lbl">Chair events</div><h1 class="page">Settings</h1></div>
+  <section class="card stack" style="max-width:720px" aria-labelledby="gcT"><div class="lbl" id="gcT">Google Calendar</div>
+    <div class="row" style="border:0;padding:0"><span><strong id="gcStatus">Checking…</strong><div class="muted small" id="gcDetail"></div></span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="gcConnect" hidden>Connect Google Calendar</button><button class="ghost" id="gcSync" hidden>Sync all events now</button><button class="ghost" id="gcDisc" hidden>Disconnect</button></div>
+    <p class="msg" id="gcMsg" role="status"></p></section>
+  <section class="card stack" style="max-width:720px" aria-labelledby="mcT"><div class="lbl" id="mcT">Owner master code</div>
+    <p class="muted" style="margin:0">Opens any therapist view at any time. Event codes only work from 30 minutes before to 30 minutes after an event.</p>
+    <p class="small" id="mcStatus"></p>
+    <form id="mcForm" class="stack" novalidate><div class="field" style="max-width:360px"><label for="mcCode">New master code</label><input id="mcCode" type="password" autocomplete="new-password" placeholder="At least 8 characters"></div>
+      <div><button class="ghost" type="submit" id="mcSave">Set master code</button></div><p class="msg" id="mcMsg" role="status"></p></form></section>`);
+  loadCalendar(); loadMaster();
+  $('gcConnect').onclick=async e=>{ const b=e.currentTarget; b.disabled=true; b.textContent='Opening Google…'; try{ const ret=new URL(location.origin+location.pathname); ret.searchParams.set('tab','settings'); const d=await calendarAction('start',{return_url:ret.toString()}); if(!d.authorization_url) throw new Error('Google did not return a sign-in link.'); location.assign(d.authorization_url); }catch(err){ gcMsg(err.message,true); b.disabled=false; b.textContent='Connect Google Calendar'; } };
+  $('gcSync').onclick=async e=>{ const b=e.currentTarget; b.disabled=true; b.textContent='Syncing…'; try{ const d=await calendarAction('sync-now'); gcMsg(`Sync done. ${d.queued||0} event${d.queued===1?'':'s'} checked.`); loadCalendar(); }catch(err){ gcMsg(err.message,true); } finally{ b.disabled=false; b.textContent='Sync all events now'; } };
+  $('gcDisc').onclick=async()=>{ const r=await ask({title:'Disconnect Google Calendar?',html:'Existing calendar events stay. Future changes here stop syncing.',ok:'Disconnect',danger:true}); if(!r.ok) return; try{ await calendarAction('disconnect'); gcMsg('Google Calendar disconnected.'); loadCalendar(); }catch(err){ gcMsg(err.message,true); } };
+  $('mcForm').onsubmit=async e=>{
+    e.preventDefault(); const code=$('mcCode').value.trim(), m=$('mcMsg');
+    if(code.length<8){ m.className='msg err'; m.textContent='Use at least 8 characters.'; $('mcCode').focus(); return; }
+    const b=$('mcSave'); b.disabled=true; b.textContent='Saving…';
+    const {error}=await sb.rpc('set_owner_master_code',{p_code_hash:await sha256(code)});
+    b.disabled=false; b.textContent='Set master code';
+    if(error){ m.className='msg err'; m.textContent=error.message||'Could not save the master code.'; return; }
+    $('mcCode').value=''; m.className='msg ok'; m.textContent='Master code saved.'; loadMaster();
+  };
+  const p=new URLSearchParams(location.search);
+  if(p.get('calendar')) gcMsg(p.get('calendar')==='connected'?'Google Calendar connected.':(p.get('message')||'Google Calendar could not be connected.'),p.get('calendar')!=='connected');
+}
+function gcMsg(t,err=false){ const m=$('gcMsg'); if(!m) return; m.className='msg '+(err?'err':'ok'); m.textContent=t||''; }
+async function loadCalendar(){
+  try{
+    const d=await calendarAction('status'); const c=d.connection||{}, on=!!d.connected;
+    $('gcStatus').textContent=on?'Connected':(c.status==='error'?'Needs attention':'Not connected');
+    $('gcDetail').textContent=on?`${c.google_account_email||'Google account'}${c.last_synced_at?' · last synced '+new Date(c.last_synced_at).toLocaleString():''}`:(c.last_error||'Connect once so events and therapist invites sync automatically.');
+    $('gcConnect').hidden=on; $('gcSync').hidden=!on; $('gcDisc').hidden=!on; $('gcConnect').disabled=!d.configured;
+    if(!d.configured) gcMsg('Google sign-in is not set up for this workspace yet.',true);
+  }catch(err){ $('gcStatus').textContent='Unavailable'; $('gcDetail').textContent='The calendar connection could not be loaded.'; $('gcConnect').hidden=true; gcMsg(err.message,true); }
+}
+async function loadMaster(){ const {data,error}=await sb.rpc('owner_master_code_configured'); const s=$('mcStatus'); if(!s) return; s.textContent=error?'Master code status is unavailable.':(data?'A master code is active. Set a new one only to replace it.':'No master code set yet.'); }
+
+/* ---------- Sign in ---------- */
+async function startApp(sess){
+  session=sess;
+  const {data:orgId,error}=await sb.rpc('my_organization_id');
+  if(error||!orgId){ showGate('This account is not assigned to a workspace.'); await sb.auth.signOut({scope:'local'}); return; }
+  const o=await sb.from('organizations').select('id,name,slug').eq('id',orgId).maybeSingle();
+  if(o.error||!o.data){ showGate('Your workspace is unavailable. Please try again.'); return; }
+  org=o.data;
+  $('whoEmail').textContent=sess.user?.email||'';
+  $('gate').hidden=true; $('app').hidden=false;
+  view('<div class="loading">Loading…</div>');
+  await loadAll();
+  if(new URLSearchParams(location.search).get('tab')==='settings'&&!location.hash) location.hash='#/settings';
+  render();
+}
+function showGate(err){ $('app').hidden=true; $('gate').hidden=false; const m=$('gateMsg'); m.hidden=!err; m.textContent=err||''; setTimeout(()=>$('gateEmail').focus(),40); }
+$('gateForm').onsubmit=async e=>{
+  e.preventDefault(); const email=$('gateEmail').value.trim(), pw=$('gatePassword').value;
+  if(!email||!pw){ showGate('Enter your email and password.'); return; }
+  const b=$('gateSubmit'); b.disabled=true; b.textContent='Signing in…';
+  const {data,error}=await sb.auth.signInWithPassword({email,password:pw});
+  b.disabled=false; b.textContent='Sign in';
+  if(error){ showGate('Email or password not recognized.'); return; }
+  $('gatePassword').value=''; startApp(data.session);
+};
+$('signOut').onclick=async()=>{ if(S.dirty){ const r=await ask({title:'Sign out without saving?',html:'Your Setup changes are not saved.',ok:'Sign out',danger:true}); if(!r.ok) return; S.dirty=false; } await sb.auth.signOut({scope:'local'}); location.reload(); };
+sb.auth.onAuthStateChange((ev,s)=>{ if(session&&(ev==='SIGNED_OUT'||(s&&s.user.id!==session.user.id))){ $('app').hidden=true; setTimeout(()=>location.reload(),0); } });
+if(CFG.test) $('envRibbon').hidden=false;
+(async()=>{ const {data:{session:s}}=await sb.auth.getSession(); if(s) startApp(s); else showGate(); })();
+
+/* ---- Copied unchanged from the current chair admin (record helpers + locked PDF builder) ---- */
+function evRecordDate(value){
+  if(!value) return '—';
+  const date=new Date(value);
+  return Number.isNaN(date.getTime())?'—':date.toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+}
+function recordFileName(record){
+  const event=record?.snapshot?.event||{};
+  const company=String(event.company||'Event').replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'')||'Event';
+  const date=String(event.event_date||'Record').replace(/-/g,'');
+  return `${company}_${date}_Record.pdf`;
+}
+function recordConcernText(value){
+  const text=String(value||'').trim();
+  return text||'Not answered';
+}
+function recordConcernIsYes(value){ return /^yes\b/i.test(String(value||'').trim()); }
+function recordStatusText(value){ return String(value||'Scheduled').trim()||'Scheduled'; }
+function recordTimeText(value){
+  const number=Number(value);
+  return Number.isFinite(number)?clock(number):String(value||'—');
+}
+function recordMetrics(bookings){
+  const list=Array.isArray(bookings)?bookings:[];
+  return {
+    bookings:list.length,
+    completed:list.filter(b=>recordStatusText(b.attendance).toLowerCase()==='completed').length,
+    noShow:list.filter(b=>recordStatusText(b.attendance).toLowerCase()==='no-show').length,
+    concerns:list.filter(b=>recordConcernIsYes(b.medical_condition_concern??b.pregnancy)).length
+  };
+}
+function canvasWrap(ctx,text,maxWidth){
+  const paragraphs=String(text??'').split(/\n/), lines=[];
+  paragraphs.forEach((paragraph,index)=>{
+    const words=(paragraph||' ').split(/\s+/), current=[];
+    words.forEach(word=>{
+      const test=[...current,word].join(' ');
+      if(current.length&&ctx.measureText(test).width>maxWidth){ lines.push(current.join(' ')); current.length=0; }
+      current.push(word);
+    });
+    lines.push(current.join(' '));
+    if(index<paragraphs.length-1) lines.push('');
+  });
+  return lines;
+}
+function canvasBlob(canvas,type='image/jpeg',quality=.92){
+  return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(new Error('Could not render the PDF page')),type,quality));
+}
+async function buildEventRecordPdf(record){
+  const snapshot=record.snapshot||{}, event=snapshot.event||{}, bookings=Array.isArray(snapshot.bookings)?snapshot.bookings:[];
+  const width=1224,height=1584,margin=86,contentWidth=width-margin*2,pages=[];
+  let canvas,ctx,y;
+  function newPage(continued=false){
+    canvas=document.createElement('canvas'); canvas.width=width; canvas.height=height; ctx=canvas.getContext('2d');
+    ctx.fillStyle='#ffffff';ctx.fillRect(0,0,width,height);ctx.fillStyle='#20372c';ctx.font='700 30px Arial';ctx.fillText('Rosters',margin,72);
+    ctx.textAlign='right';ctx.font='700 16px Arial';ctx.fillText('LOCKED ORIGINAL',width-margin,68);ctx.textAlign='left';
+    ctx.strokeStyle='#2f493b';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(margin,92);ctx.lineTo(width-margin,92);ctx.stroke();
+    y=continued?145:155; pages.push(canvas);
+    if(continued){ctx.fillStyle='#171a18';ctx.font='700 28px Arial';ctx.fillText('Completed Event Record (continued)',margin,y);y+=48;}
+  }
+  function drawWrapped(text,x,maxWidth,lineHeight=28,font='400 21px Arial',color='#252a27'){
+    ctx.font=font;ctx.fillStyle=color;const lines=canvasWrap(ctx,text,maxWidth);lines.forEach(line=>{ctx.fillText(line,x,y);y+=lineHeight;});return lines.length;
+  }
+  function info(label,value){
+    ctx.font='700 18px Arial';ctx.fillStyle='#77736d';ctx.fillText(label,margin,y);
+    const top=y;drawWrapped(value||'—',margin+210,contentWidth-210,26,'600 20px Arial','#232724');
+    y=Math.max(y,top+30)+7;
+  }
+  function tableHeader(){
+    ctx.fillStyle='#f2f0eb';ctx.fillRect(margin,y,contentWidth,42);ctx.fillStyle='#6d6963';ctx.font='700 15px Arial';
+    ctx.fillText('EMPLOYEE',margin+10,y+27);ctx.fillText('TIME',margin+280,y+27);ctx.fillText('MEDICAL CONDITION CONCERN',margin+420,y+27);ctx.fillText('STATUS',margin+910,y+27);y+=42;
+  }
+  newPage(false);
+  ctx.fillStyle='#171a18';ctx.font='700 48px Georgia';ctx.fillText('Completed Event Record',margin,y);y+=44;
+  ctx.fillStyle='#77736d';ctx.font='400 19px Arial';ctx.fillText('Generated from the official record captured when the event was finalized.',margin,y);y+=55;
+  info('Client',event.company);
+  const eventDateValue=event.event_date?new Date(event.event_date+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'—';
+  info('Event date',eventDateValue);info('Time',`${clock(minutes(event.start_time||'00:00'))} – ${clock(minutes(event.end_time||'00:00'))}`);
+  info('Therapist(s)',Array.isArray(event.therapist_names)?event.therapist_names.join(', '):String(event.therapist_names||'—'));
+  const client=event.client||{};info('Location',client.serviceAddress||event.location||'—');
+  y+=12;ctx.strokeStyle='#ddd8cf';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(margin,y);ctx.lineTo(width-margin,y);ctx.stroke();y+=42;
+  ctx.fillStyle='#171a18';ctx.font='700 31px Georgia';ctx.fillText('Final attendance and concerns',margin,y);y+=26;
+  const metrics=recordMetrics(bookings);ctx.fillStyle='#77736d';ctx.font='400 17px Arial';ctx.fillText(`${metrics.bookings} bookings  ·  ${metrics.completed} completed  ·  ${metrics.noShow} no-show  ·  ${metrics.concerns} concern noted`,margin,y);y+=32;
+  tableHeader();
+  bookings.forEach((booking,index)=>{
+    const name=employeeDisplayName(booking.first_name||'—',bookingLastName(booking)), concern=recordConcernText(booking.medical_condition_concern), status=recordStatusText(booking.attendance);
+    ctx.font='400 17px Arial';const concernLines=canvasWrap(ctx,concern,465);let acknowledgment='';
+    if(booking.acknowledgment_version){ acknowledgment=`Acknowledged by ${booking.acknowledged_by||name} · ${evRecordDate(booking.acknowledged_at)} · ${booking.acknowledgment_version}`; }
+    const ackLines=acknowledgment?canvasWrap(ctx,acknowledgment,465):[];
+    const rowHeight=Math.max(64,26+concernLines.length*23+ackLines.length*19);
+    if(y+rowHeight>1470){ newPage(true); tableHeader(); }
+    if(index%2===1){ctx.fillStyle='#fbfaf8';ctx.fillRect(margin,y,contentWidth,rowHeight);}
+    ctx.fillStyle='#1f2421';ctx.font='700 19px Arial';ctx.fillText(name,margin+10,y+27);ctx.font='400 15px Arial';ctx.fillStyle='#77736d';ctx.fillText(String(booking.email||''),margin+10,y+49);
+    ctx.fillStyle='#252a27';ctx.font='600 17px Arial';ctx.fillText(recordTimeText(booking.slot_start),margin+280,y+28);
+    ctx.fillStyle=recordConcernIsYes(concern)?'#9b342f':'#252a27';ctx.font=recordConcernIsYes(concern)?'700 17px Arial':'400 17px Arial';
+    concernLines.forEach((line,lineIndex)=>ctx.fillText(line,margin+420,y+27+lineIndex*23));
+    if(ackLines.length){ctx.fillStyle='#77736d';ctx.font='400 13px Arial';ackLines.forEach((line,lineIndex)=>ctx.fillText(line,margin+420,y+31+concernLines.length*23+lineIndex*18));}
+    ctx.fillStyle='#2f493b';ctx.font='700 16px Arial';ctx.fillText(status,margin+910,y+28);
+    ctx.strokeStyle='#e4e0da';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(margin,y+rowHeight);ctx.lineTo(width-margin,y+rowHeight);ctx.stroke();y+=rowHeight;
+  });
+  pages.forEach((page,index)=>{
+    const pageCtx=page.getContext('2d');pageCtx.fillStyle='#77736d';pageCtx.font='400 12px ui-monospace, monospace';pageCtx.fillText(`Record ID: ${record.id}`,margin,height-48);
+    pageCtx.fillText(`Integrity fingerprint: ${record.snapshot_hash}`,margin,height-29);
+    pageCtx.textAlign='right';pageCtx.fillText(`Page ${index+1} of ${pages.length}`,width-margin,height-29);pageCtx.textAlign='left';
+  });
+  const images=[];for(const page of pages){ const blob=await canvasBlob(page);images.push(new Uint8Array(await blob.arrayBuffer())); }
+  return rasterImagesToPdf(images,width,height);
+}
+function rasterImagesToPdf(images,imageWidth,imageHeight){
+  const encoder=new TextEncoder(),chunks=[];let length=0;const offsets=[];
+  const push=value=>{const bytes=typeof value==='string'?encoder.encode(value):value;chunks.push(bytes);length+=bytes.length;};
+  push('%PDF-1.4\n%Rosters\n');
+  const objectCount=2+images.length*3;
+  function beginObject(number){offsets[number]=length;push(`${number} 0 obj\n`);}
+  beginObject(1);push('<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
+  beginObject(2);push(`<< /Type /Pages /Count ${images.length} /Kids [${images.map((_,i)=>`${3+i*3} 0 R`).join(' ')}] >>\nendobj\n`);
+  images.forEach((image,index)=>{
+    const pageObject=3+index*3,imageObject=pageObject+1,contentObject=pageObject+2,imageName=`Img${index+1}`;
+    beginObject(pageObject);push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /XObject << /${imageName} ${imageObject} 0 R >> >> /Contents ${contentObject} 0 R >>\nendobj\n`);
+    beginObject(imageObject);push(`<< /Type /XObject /Subtype /Image /Width ${imageWidth} /Height ${imageHeight} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${image.length} >>\nstream\n`);push(image);push('\nendstream\nendobj\n');
+    const content=`q\n612 0 0 792 0 0 cm\n/${imageName} Do\nQ\n`;
+    beginObject(contentObject);push(`<< /Length ${encoder.encode(content).length} >>\nstream\n${content}endstream\nendobj\n`);
+  });
+  const xrefOffset=length;push(`xref\n0 ${objectCount+1}\n0000000000 65535 f \n`);
+  for(let i=1;i<=objectCount;i++) push(`${String(offsets[i]).padStart(10,'0')} 00000 n \n`);
+  push(`trailer\n<< /Size ${objectCount+1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`);
+  return new Blob(chunks,{type:'application/pdf'});
+}
+
+</script>
+</body>
+</html>
