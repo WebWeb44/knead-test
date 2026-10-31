@@ -217,6 +217,10 @@ function OwnerSettings({tab,onTab}){
  const [saved,setSaved]=useState(null),[values,setValues]=useState({}),[premium,setPremium]=useState(false),[specialty,setSpecialty]=useState(false),[zipEditing,setZipEditing]=useState(false),[zipText,setZipText]=useState(''),[rateValues,setRateValues]=useState({});
  const [notice,setNotice,noticeView]=useNotice(),[busy,run]=useAsync(setNotice);
  const accept=data=>{setSaved(data);setValues(Object.fromEntries(OWNER_PAY_FIELDS.map(([k])=>[k,data.policy?.[k]==null?'':String(data.policy[k])])));setZipText(data.zips.join(', '));setRateValues(ownerRateInputs(data.pricing))};
+ // A response includes every section, but only the saved/refreshed section has
+ // been reviewed. Keep the other drafts paired with their original versions.
+ const acceptPay=data=>{setSaved(old=>({...old,policy:data.policy}));setValues(Object.fromEntries(OWNER_PAY_FIELDS.map(([k])=>[k,data.policy?.[k]==null?'':String(data.policy[k])])))};
+ const acceptRates=data=>{setSaved(old=>({...old,pricing:data.pricing,rates:data.rates,regular:data.regular,specialty:data.specialty,early:data.early,tax_percent:data.tax_percent}));setRateValues(ownerRateInputs(data.pricing))};
  useEffect(()=>{run(async()=>accept(await rpc('rd_owner_settings')))},[]);
  const reload=()=>run(async()=>{accept(await rpc('rd_owner_settings'));setNotice('Settings refreshed.')});
  if(!saved)return h('div',{class:'card'},h('h2',{class:'h2'},'Settings'),h('p',{role:'status'},busy?'Loading settings…':notice||'Settings could not be loaded.'),!busy&&h('button',{class:'ghost',onClick:reload},'Retry'),noticeView);
@@ -226,14 +230,14 @@ function OwnerSettings({tab,onTab}){
   const p=Object.fromEntries(OWNER_PAY_FIELDS.map(([k])=>[k,ownerPercent(values[k])]));
   const missing=OWNER_PAY_FIELDS.find(([k])=>p[k]===null);if(missing){setNotice('Enter '+missing[1].toLowerCase()+' between 0 and 100, with up to two decimal places.');document.getElementById('owner-'+missing[0])?.focus();return;}
   if(p.massage_percent+p.premium_bonus_percent>100){setNotice('Massage price and Premium bonus together cannot exceed 100%.');return;}
-  try{const d=await rpc('rd_owner_pay_save',{p_data:p,p_version:saved.policy.version});setSaved(d);setValues(Object.fromEntries(OWNER_PAY_FIELDS.map(([k])=>[k,String(d.policy[k])])));setNotice('Pay structure saved. Changes apply to new offers only.');}
-  catch(e){if(e.message?.includes('PAY_STRUCTURE_CHANGED')){accept(await rpc('rd_owner_settings'));setNotice('Another session changed the pay structure. The latest saved values are loaded; review them before saving.');}else throw e;}
+  try{acceptPay(await rpc('rd_owner_pay_save',{p_data:p,p_version:saved.policy.version}));setNotice('Pay structure saved. Changes apply to new offers only.');}
+  catch(e){if(e.message?.includes('PAY_STRUCTURE_CHANGED')){acceptPay(await rpc('rd_owner_settings'));setNotice('Another session changed the pay structure. The latest saved values are loaded; review them before saving.');}else throw e;}
  });
  const saveRates=()=>run(async()=>{
   const p=ownerRatePayload(rateValues),invalid=OWNER_RATE_FIELDS.find(([key])=>p[key]===null||(key.startsWith('base_')&&p[key]<=0));
   if(invalid){setNotice('Enter a valid '+invalid[1].toLowerCase()+'.');document.getElementById('rate-'+invalid[0])?.focus();return;}
-  try{const d=await rpc('rd_owner_rates_save',{p_data:p,p_version:saved.pricing.version});setSaved(d);setRateValues(ownerRateInputs(d.pricing));setNotice('Client rates saved. New quotes use these rates; existing bookings keep their original amounts.');}
-  catch(e){if(e.message?.includes('RATES_CHANGED')){const d=await rpc('rd_owner_settings');setSaved(d);setRateValues(ownerRateInputs(d.pricing));setNotice('Another session changed the rates. The latest values are loaded; review them before saving.');}else throw e;}
+  try{acceptRates(await rpc('rd_owner_rates_save',{p_data:p,p_version:saved.pricing.version}));setNotice('Client rates saved. New quotes use these rates; existing bookings keep their original amounts.');}
+  catch(e){if(e.message?.includes('RATES_CHANGED')){acceptRates(await rpc('rd_owner_settings'));setNotice('Another session changed the rates. The latest values are loaded; review them before saving.');}else throw e;}
  });
  const saveZips=()=>run(async()=>{
   const zips=[...new Set(zipText.split(/[\s,]+/).filter(Boolean))];
